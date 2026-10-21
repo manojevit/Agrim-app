@@ -209,6 +209,17 @@ const en: Dict = {
   'map.unitsHere': 'Units on this map',
   'map.note': 'Tap a unit to open it. Colours show its status.',
 
+  'ob.chooseLang': 'Choose your language',
+  'ob.skip': 'Skip',
+  'ob.next': 'Next',
+  'ob.getStarted': 'Get started',
+  'ob.1.title': 'Clean toilets, watched for you',
+  'ob.1.body': 'A sensor on the wall checks the air all day, so nobody has to walk in to find out.',
+  'ob.2.title': 'Know the moment one needs cleaning',
+  'ob.2.body': 'Plain alerts in words anyone understands — no confusing numbers.',
+  'ob.3.title': 'Clean it, log it, done',
+  'ob.3.body': 'Send a cleaner, or log a clean with a photo. The whole team stays in the loop.',
+
   'flt.all': 'All',
 };
 
@@ -404,6 +415,17 @@ const hi: Dict = {
   'map.sub': 'आपके शौचालय कहाँ हैं',
   'map.unitsHere': 'इस नक्शे की यूनिट',
   'map.note': 'खोलने के लिए यूनिट पर टैप करें। रंग उसकी स्थिति दिखाते हैं।',
+
+  'ob.chooseLang': 'अपनी भाषा चुनें',
+  'ob.skip': 'छोड़ें',
+  'ob.next': 'आगे',
+  'ob.getStarted': 'शुरू करें',
+  'ob.1.title': 'साफ़ शौचालय, आपके लिए निगरानी में',
+  'ob.1.body': 'दीवार पर लगा सेंसर दिनभर हवा जाँचता है, ताकि किसी को अंदर जाकर देखना न पड़े।',
+  'ob.2.title': 'जैसे ही सफ़ाई चाहिए, तुरंत पता चले',
+  'ob.2.body': 'आसान शब्दों में अलर्ट — कोई उलझाने वाले नंबर नहीं।',
+  'ob.3.title': 'साफ़ करें, दर्ज करें, हो गया',
+  'ob.3.body': 'सफ़ाईकर्मी भेजें, या फ़ोटो के साथ सफ़ाई दर्ज करें। पूरी टीम को पता रहता है।',
 
   'flt.all': 'सभी',
 };

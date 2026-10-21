@@ -2,15 +2,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppCard } from '@/components/AppCard';
 import { CleanerJobCard } from '@/components/CleanerJobCard';
-import { SectionHeader } from '@/components/SectionHeader';
+import { ProgressRing } from '@/components/ProgressRing';
 import { Txt } from '@/components/Txt';
 import { CLEANER, CLEANER_JOBS } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
 
 function today() {
-  return new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' });
+  return new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
 export default function CleanerJobs() {
@@ -19,91 +18,95 @@ export default function CleanerJobs() {
   const urgent = todo.filter((j) => j.urgent);
   const rest = todo.filter((j) => !j.urgent);
   const doneToday = CLEANER_JOBS.filter((j) => j.done).length;
+  const total = CLEANER_JOBS.length;
   const multiBuilding = CLEANER.buildings.length > 1;
-  // Group the non-urgent jobs by building (only matters when a cleaner covers more than one).
   const restByBuilding = CLEANER.buildings
     .map((b) => ({ building: b, jobs: rest.filter((j) => j.building === b) }))
     .filter((g) => g.jobs.length > 0);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.bg }} contentContainerStyle={{ paddingTop: insets.top + spacing.md, paddingHorizontal: spacing.lg, paddingBottom: spacing.xxxl }} showsVerticalScrollIndicator={false}>
-      <View style={styles.topRow}>
-        <View style={{ flex: 1 }}>
-          <Txt variant="small" color={colors.textMuted}>{today()}</Txt>
-          <Txt variant="h1" style={{ marginTop: 2 }}>Hi, {CLEANER.name}</Txt>
-          <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>
-            {multiBuilding ? `${CLEANER.buildings.length} buildings · ${CLEANER.area}` : CLEANER.buildings[0]}
-          </Txt>
-        </View>
-        <Pressable style={styles.roleChip} onPress={() => router.push('/switch-role')}>
-          <View style={styles.roleBadge}><MaterialCommunityIcons name="broom" size={16} color={colors.primary} /></View>
-          <MaterialCommunityIcons name="swap-horizontal" size={15} color={colors.primary} />
-        </Pressable>
-      </View>
-
-      {/* Count summary */}
-      <View style={styles.summary}>
-        <View style={styles.summaryItem}>
-          <Txt variant="display" color={colors.act}>{todo.length}</Txt>
-          <Txt variant="small" color={colors.textMuted}>to clean</Txt>
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.summaryItem}>
-          <Txt variant="display" color={colors.good}>{doneToday}</Txt>
-          <Txt variant="small" color={colors.textMuted}>done today</Txt>
-        </View>
-      </View>
-
-      {urgent.length > 0 && (
-        <>
-          <View style={styles.urgentHead}>
-            <MaterialCommunityIcons name="alert-circle" size={18} color={colors.act} />
-            <Txt variant="h3" color={colors.act}>Clean now</Txt>
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: spacing.xxxl }}>
+        {/* Indigo hero */}
+        <View style={[styles.hero, { paddingTop: insets.top + spacing.md }]}>
+          <View style={styles.heroTop}>
+            <Txt variant="small" color="rgba(255,255,255,0.72)">{today()}</Txt>
+            <Pressable style={styles.switch} onPress={() => router.push('/switch-role')}>
+              <MaterialCommunityIcons name="swap-horizontal" size={16} color="#FFFFFF" />
+              <Txt variant="tiny" color="#FFFFFF">Switch</Txt>
+            </Pressable>
           </View>
-          {urgent.map((j) => <CleanerJobCard key={j.id} job={j} />)}
-        </>
-      )}
+          <Txt variant="display" color="#FFFFFF" style={{ marginTop: spacing.sm }}>Hi, {CLEANER.name}</Txt>
+          <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>
+            {multiBuilding ? `${CLEANER.buildings.length} buildings in ${CLEANER.area}` : CLEANER.buildings[0]}
+          </Txt>
 
-      {rest.length > 0 && !multiBuilding && (
-        <>
-          <SectionHeader title="Also to clean" />
-          {rest.map((j) => <CleanerJobCard key={j.id} job={j} />)}
-        </>
-      )}
-
-      {rest.length > 0 && multiBuilding && (
-        <>
-          <SectionHeader title="Also to clean" />
-          {restByBuilding.map((g) => (
-            <View key={g.building}>
-              <View style={styles.buildingRow}>
-                <MaterialCommunityIcons name="office-building-marker-outline" size={15} color={colors.textMuted} />
-                <Txt variant="label" color={colors.textMuted}>{g.building}</Txt>
+          <View style={styles.progressRow}>
+            <ProgressRing size={76} stroke={9} progress={total ? doneToday / total : 0} color="#FFFFFF" track="rgba(255,255,255,0.22)">
+              <View style={{ alignItems: 'center' }}>
+                <Txt variant="h2" color="#FFFFFF">{doneToday}</Txt>
+                <Txt variant="tiny" color="rgba(255,255,255,0.72)">of {total}</Txt>
               </View>
-              {g.jobs.map((j) => <CleanerJobCard key={j.id} job={j} />)}
+            </ProgressRing>
+            <View style={{ flex: 1 }}>
+              <Txt variant="h2" color="#FFFFFF">{todo.length} left to clean</Txt>
+              <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>
+                {doneToday > 0 ? `You've finished ${doneToday} today. Keep going.` : 'Start with the ones marked clean now.'}
+              </Txt>
             </View>
-          ))}
-        </>
-      )}
+          </View>
+        </View>
 
-      {todo.length === 0 && (
-        <AppCard stripe={colors.good} style={{ marginTop: spacing.lg, alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.xxl }}>
-          <MaterialCommunityIcons name="check-circle" size={40} color={colors.good} />
-          <Txt variant="h2">All done!</Txt>
-          <Txt variant="body" color={colors.textMuted}>Nothing to clean right now.</Txt>
-        </AppCard>
-      )}
-    </ScrollView>
+        <View style={styles.body}>
+          {urgent.length > 0 && (
+            <>
+              <View style={styles.sectionRow}>
+                <View style={styles.liveDot} />
+                <Txt variant="h3" color={colors.act}>Clean now</Txt>
+              </View>
+              {urgent.map((j) => <CleanerJobCard key={j.id} job={j} variant="focus" />)}
+            </>
+          )}
+
+          {rest.length > 0 && (
+            <>
+              <Txt variant="h3" style={{ marginTop: urgent.length ? spacing.xl : spacing.md, marginBottom: spacing.sm }}>Later today</Txt>
+              {multiBuilding
+                ? restByBuilding.map((g) => (
+                    <View key={g.building}>
+                      <View style={styles.buildingRow}>
+                        <MaterialCommunityIcons name="map-marker-outline" size={14} color={colors.textMuted} />
+                        <Txt variant="label" color={colors.textMuted}>{g.building}</Txt>
+                      </View>
+                      {g.jobs.map((j) => <CleanerJobCard key={j.id} job={j} variant="row" />)}
+                    </View>
+                  ))
+                : rest.map((j) => <CleanerJobCard key={j.id} job={j} variant="row" />)}
+            </>
+          )}
+
+          {todo.length === 0 && (
+            <View style={styles.empty}>
+              <View style={styles.emptyIcon}><MaterialCommunityIcons name="check-all" size={34} color={colors.good} /></View>
+              <Txt variant="h2" style={{ marginTop: spacing.md }}>All done for now</Txt>
+              <Txt variant="body" color={colors.textMuted} style={{ marginTop: spacing.xs, textAlign: 'center' }}>Nothing needs cleaning right now. We'll alert you when it does.</Txt>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  topRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing.lg },
-  roleChip: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.pill, paddingHorizontal: spacing.sm, paddingVertical: spacing.xs },
-  roleBadge: { width: 26, height: 26, borderRadius: 8, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
-  summary: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, paddingVertical: spacing.lg },
-  summaryItem: { flex: 1, alignItems: 'center', gap: 2 },
-  divider: { width: 1, height: 44, backgroundColor: colors.border },
-  urgentHead: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.xl, marginBottom: spacing.sm },
+  hero: { backgroundColor: colors.primary, paddingHorizontal: spacing.lg, paddingBottom: spacing.xl, borderBottomLeftRadius: radius.xxl, borderBottomRightRadius: radius.xxl },
+  heroTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  switch: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
+  progressRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.lg, marginTop: spacing.xl, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: radius.lg, padding: spacing.md },
+  body: { paddingHorizontal: spacing.lg, paddingTop: spacing.lg },
+  sectionRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
+  liveDot: { width: 9, height: 9, borderRadius: 5, backgroundColor: colors.act },
   buildingRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.sm, marginBottom: spacing.sm },
+  empty: { alignItems: 'center', paddingVertical: spacing.xxxl },
+  emptyIcon: { width: 72, height: 72, borderRadius: 24, backgroundColor: colors.goodSoft, alignItems: 'center', justifyContent: 'center' },
 });

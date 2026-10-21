@@ -39,6 +39,17 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "b731287a-90b4-4456-8c86-0fe377b52ef8"
+      }
+    },
+    "owner": "manoj-evit"
   }
 }

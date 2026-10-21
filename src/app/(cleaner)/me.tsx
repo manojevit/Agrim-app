@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Alert as RNAlert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { CleanerHeader } from '@/components/CleanerHeader';
+import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
 import { useSession } from '@/context/session';
 import { CLEANER } from '@/data/cleaner';
@@ -21,7 +21,7 @@ export default function CleanerMe() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <CleanerHeader title="Me">
+      <AppHeader title="Me">
         <View style={styles.profile}>
           <View style={styles.avatar}><Txt variant="display" color={colors.primary}>{CLEANER.name[0]}</Txt></View>
           <View style={{ flex: 1 }}>
@@ -33,7 +33,7 @@ export default function CleanerMe() {
             <Txt variant="tiny" color="#FFFFFF">Switch</Txt>
           </Pressable>
         </View>
-      </CleanerHeader>
+      </AppHeader>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         <View style={styles.group}>

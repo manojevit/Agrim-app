@@ -3,7 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Alert as RNAlert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import { CleanerHeader } from '@/components/CleanerHeader';
+import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
 import { cleanerJobById, JOB_META } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
@@ -22,12 +22,12 @@ export default function CleanerJob() {
   const [photo, setPhoto] = useState(false);
   const [note, setNote] = useState('');
 
-  if (!job) return <View style={{ flex: 1, backgroundColor: colors.bg }}><CleanerHeader back title="Job" /></View>;
+  if (!job) return <View style={{ flex: 1, backgroundColor: colors.bg }}><AppHeader back title="Job" /></View>;
   const m = JOB_META[job.status];
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <CleanerHeader back title={job.toilet} subtitle={job.building}>
+      <AppHeader back title={job.toilet} subtitle={job.building}>
         <View style={styles.statusCard}>
           <View style={[styles.medallion, { backgroundColor: m.color }]}>
             <MaterialCommunityIcons name={m.icon as any} size={24} color="#FFFFFF" />
@@ -38,7 +38,7 @@ export default function CleanerJob() {
             <Txt variant="tiny" color="rgba(255,255,255,0.6)" style={{ marginTop: 6 }}>Flagged by {job.assignedBy.toLowerCase()}, {job.flaggedAt}</Txt>
           </View>
         </View>
-      </CleanerHeader>
+      </AppHeader>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         {/* Getting there */}

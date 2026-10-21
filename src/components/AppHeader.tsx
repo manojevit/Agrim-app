@@ -5,8 +5,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Txt } from './Txt';
 import { colors, radius, spacing } from '@/theme';
 
-/** The indigo header band used across the cleaner app — the brand's visual anchor. */
-export function CleanerHeader({
+/** The indigo header band — the brand's visual anchor, shared across the field apps. */
+export function AppHeader({
   title,
   subtitle,
   back,

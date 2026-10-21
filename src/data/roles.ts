@@ -69,6 +69,20 @@ export const ROLE_ORDER: RoleId[] = ['cleaner', 'facility', 'block', 'district',
 export const APP_ROLES: RoleId[] = ['cleaner', 'facility', 'block'];
 
 /** The home route for a role — ground roles get their own tailored app. */
-export function homeRouteFor(id: RoleId): '/(cleaner)' | '/(tabs)' {
-  return id === 'cleaner' ? '/(cleaner)' : '/(tabs)';
+export function homeRouteFor(id: RoleId): '/(cleaner)' | '/(facility)' | '/(tabs)' {
+  if (id === 'cleaner') return '/(cleaner)';
+  if (id === 'facility') return '/(facility)';
+  return '/(tabs)';
+}
+
+/** The account decides the role (as a real backend would) — inferred from the email. */
+export function roleFromEmail(email: string): RoleId {
+  const e = email.trim().toLowerCase();
+  if (e.startsWith('cleaner')) return 'cleaner';
+  if (e.startsWith('block')) return 'block';
+  if (e.startsWith('district')) return 'district';
+  if (e.startsWith('regional')) return 'regional';
+  if (e.startsWith('central')) return 'central';
+  if (e.startsWith('system') || e.startsWith('admin')) return 'system';
+  return 'facility';
 }

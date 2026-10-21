@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { CleanerHeader } from '@/components/CleanerHeader';
+import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
 import { CLEANER_JOBS } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
@@ -9,7 +9,7 @@ export default function CleanerHistory() {
   const done = CLEANER_JOBS.filter((j) => j.done);
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <CleanerHeader title="Done" subtitle={`${done.length} cleaned today`} />
+      <AppHeader title="Done" subtitle={`${done.length} cleaned today`} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         {done.length === 0 && <Txt variant="body" color={colors.textMuted}>Nothing logged yet today.</Txt>}
         {done.map((j) => (

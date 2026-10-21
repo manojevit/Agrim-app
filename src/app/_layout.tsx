@@ -46,9 +46,12 @@ export default function RootLayout() {
             <Stack.Screen name="login" />
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="(cleaner)" />
+            <Stack.Screen name="(facility)" />
             <Stack.Screen name="toilet/[id]" />
             <Stack.Screen name="alert/[id]" />
             <Stack.Screen name="cleaner-job/[id]" />
+            <Stack.Screen name="facility-toilet/[id]" />
+            <Stack.Screen name="facility-alert/[id]" />
             <Stack.Screen name="cleaner-alert" options={{ presentation: 'fullScreenModal' }} />
             <Stack.Screen name="switch-role" options={{ presentation: 'modal' }} />
           </Stack>

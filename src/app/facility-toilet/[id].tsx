@@ -44,7 +44,7 @@ export default function FacilityToilet() {
         )}
 
         <View style={{ gap: spacing.sm, marginTop: hasData ? spacing.md : 0 }}>
-          {toilet.status === 'act' && <Button mode="contained" icon="phone" onPress={() => RNAlert.alert('Send a cleaner', `Ringing the cleaners for ${toilet.block}.`)} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>Send a cleaner</Button>}
+          {toilet.status === 'act' && <Button mode="contained" icon="phone" onPress={() => RNAlert.alert('Send a cleaner', `An automated voice call will tell the cleaners that ${toilet.name} needs cleaning. Cost about ₹7.`, [{ text: 'Cancel', style: 'cancel' }, { text: 'Call now' }])} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>Send a cleaner</Button>}
           {toilet.status === 'offline' && <Button mode="contained" icon="wrench" onPress={() => RNAlert.alert('Reported', 'A maintenance check has been logged for this unit.')} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>Report sensor problem</Button>}
           <Button mode="outlined" icon="check" onPress={() => RNAlert.alert('Cleaned', `${toilet.name} logged as cleaned just now.`)} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>Mark as cleaned</Button>
         </View>

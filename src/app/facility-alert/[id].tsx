@@ -66,7 +66,7 @@ export default function FacilityAlert() {
         {state !== 'resolved' && (
           <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
             {state !== 'onit' && <Button mode="contained" icon="hand-back-right" onPress={() => { setState('onit'); RNAlert.alert("You're on it", 'The clock has stopped. It won\'t be passed up while you handle it.'); }} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>I'm on it</Button>}
-            <Button mode="outlined" icon="phone" onPress={() => RNAlert.alert('Send a cleaner', `Ringing the cleaners for ${alert.block}.`)} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>Send a cleaner</Button>
+            <Button mode="outlined" icon="phone" onPress={() => RNAlert.alert('Send a cleaner', `An automated voice call will tell the cleaners that ${alert.toiletName} needs cleaning. Cost about ₹7.`, [{ text: 'Cancel', style: 'cancel' }, { text: 'Call now' }])} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>Send a cleaner</Button>
             <Button mode="text" icon="arrow-up" onPress={() => { setState('handedUp'); RNAlert.alert('Passed up', 'Your senior has been notified.'); }} labelStyle={styles.btnLabel} textColor={colors.primary}>Pass to my senior</Button>
           </View>
         )}

@@ -4,39 +4,42 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { CLEANER_JOBS } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
 
 /** The loud "clean now" takeover a cleaner sees when a toilet needs attention. */
 export default function CleanerAlert() {
   const insets = useSafeAreaInsets();
+  const { t, lang } = useLang();
   const job = CLEANER_JOBS[0];
+  const toilet = lang === 'hi' ? job.toiletHi : job.toilet;
 
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + spacing.xxxl, paddingBottom: insets.bottom + spacing.xl }]}>
       <View style={styles.badge}>
         <View style={styles.badgeDot} />
-        <Txt variant="label" color="#FFFFFF">Clean now</Txt>
+        <Txt variant="label" color="#FFFFFF">{t('alert.cleanNow')}</Txt>
       </View>
 
       <View style={styles.center}>
         <View style={styles.ring}>
           <MaterialCommunityIcons name="alert-circle" size={56} color="#FFFFFF" />
         </View>
-        <Txt variant="display" color="#FFFFFF" style={{ textAlign: 'center', marginTop: spacing.xl }}>{job.toilet}</Txt>
-        <Txt variant="h3" color="#C7CEEF" style={{ textAlign: 'center', marginTop: spacing.xs }}>needs cleaning now</Txt>
+        <Txt variant="display" color="#FFFFFF" style={{ textAlign: 'center', marginTop: spacing.xl }}>{toilet}</Txt>
+        <Txt variant="h3" color="#C7CEEF" style={{ textAlign: 'center', marginTop: spacing.xs }}>{t('alert.needsCleaning')}</Txt>
         <View style={styles.reason}>
-          <Txt variant="body" color="#E6E9F7" style={{ textAlign: 'center' }}>{job.headline}</Txt>
-          <Txt variant="small" color="#9AA3CC" style={{ textAlign: 'center', marginTop: spacing.xs }}>{job.building} · {job.type}</Txt>
+          <Txt variant="body" color="#E6E9F7" style={{ textAlign: 'center' }}>{t(`problem.${job.status}`)}</Txt>
+          <Txt variant="small" color="#9AA3CC" style={{ textAlign: 'center', marginTop: spacing.xs }}>{job.building}</Txt>
         </View>
       </View>
 
       <View style={{ gap: spacing.sm }}>
         <Button mode="contained" icon="arrow-right" buttonColor="#FFFFFF" textColor={colors.primaryDark} style={{ borderRadius: radius.md }} contentStyle={{ height: 54 }} labelStyle={styles.label} onPress={() => router.replace(`/cleaner-job/${job.id}`)}>
-          View the job
+          {t('alert.viewJob')}
         </Button>
         <Button mode="text" textColor="#C7CEEF" labelStyle={styles.label} onPress={() => router.replace('/(cleaner)')}>
-          Later
+          {t('alert.later')}
         </Button>
       </View>
     </View>

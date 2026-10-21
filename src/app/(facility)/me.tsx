@@ -16,7 +16,7 @@ export default function FacilityMe() {
     { icon: 'office-building-marker', label: 'My building', sub: `${FACILITY.building}, ${FACILITY.area}` },
     { icon: 'phone', label: 'My number', sub: FACILITY.phone },
     { icon: 'account-group', label: 'Cleaning staff & calls', sub: 'Who to ring for this building', onPress: () => router.push('/staff') },
-    { icon: 'bell-outline', label: 'Notification settings', sub: 'How alerts reach this phone', onPress: soon('Notification settings') },
+    { icon: 'bell-outline', label: 'Notification settings', sub: 'How alerts reach this phone', onPress: () => router.push('/notifications') },
     { icon: 'help-circle-outline', label: 'Help', onPress: soon('Help') },
   ];
 

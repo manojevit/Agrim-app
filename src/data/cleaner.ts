@@ -1,22 +1,25 @@
-/** The cleaner's own data — their jobs, kept simple and in plain words. */
+/** The cleaner's own data — their jobs, kept simple and in plain words (English + Hindi). */
 
 export type JobStatus = 'act' | 'watch' | 'routine';
 
 export interface CleanerJob {
   id: string;
   toilet: string; // "Gents toilet 2"
+  toiletHi: string;
   type: 'Gents' | 'Ladies' | 'Accessible' | 'Unisex';
   building: string;
   address: string;
   status: JobStatus;
-  headline: string; // plain: "Smells bad — clean now"
+  headline: string;
   reason: string;
+  reasonHi: string;
   urgent: boolean;
-  assignedBy: string; // "Auto from sensor" | "Ravi (facility)"
+  assignedBy: string;
   flaggedAt: string;
   done: boolean;
   cleanedAt?: string;
   note?: string;
+  noteHi?: string;
 }
 
 export const CLEANER = {
@@ -28,120 +31,62 @@ export const CLEANER = {
 
 export const CLEANER_JOBS: CleanerJob[] = [
   {
-    id: 'j1',
-    toilet: 'Gents toilet 2',
-    type: 'Gents',
-    building: 'CTC Saket Block A',
-    address: 'Saket, near Select Citywalk, New Delhi',
-    status: 'act',
-    headline: 'Smells bad — clean now',
-    reason: 'Strong pee and drain smell for over an hour.',
-    urgent: true,
-    assignedBy: 'Auto from sensor',
-    flaggedAt: '20 min ago',
-    done: false,
+    id: 'j1', toilet: 'Gents toilet 2', toiletHi: 'पुरुष शौचालय 2', type: 'Gents',
+    building: 'CTC Saket Block A', address: 'Saket, near Select Citywalk, New Delhi',
+    status: 'act', headline: 'Smells bad', reason: 'Strong pee and drain smell for over an hour.',
+    reasonHi: 'एक घंटे से तेज़ पेशाब और नाली की बदबू।',
+    urgent: true, assignedBy: 'Auto from sensor', flaggedAt: '20 min ago', done: false,
   },
   {
-    id: 'j2',
-    toilet: 'Ladies toilet 1',
-    type: 'Ladies',
-    building: 'CTC Saket Block A',
-    address: 'Saket, near Select Citywalk, New Delhi',
-    status: 'act',
-    headline: 'Air is very poor — clean now',
-    reason: 'Dust and smell are high.',
-    urgent: true,
-    assignedBy: 'Ravi (facility)',
-    flaggedAt: '45 min ago',
-    done: false,
+    id: 'j2', toilet: 'Ladies toilet 1', toiletHi: 'महिला शौचालय 1', type: 'Ladies',
+    building: 'CTC Saket Block A', address: 'Saket, near Select Citywalk, New Delhi',
+    status: 'act', headline: 'Air is very poor', reason: 'Dust and smell are high.',
+    reasonHi: 'धूल और बदबू ज़्यादा है।',
+    urgent: true, assignedBy: 'Ravi (facility)', flaggedAt: '45 min ago', done: false,
   },
   {
-    id: 'j3',
-    toilet: 'Gents toilet 1',
-    type: 'Gents',
-    building: 'CTC Saket Block A',
-    address: 'Saket, near Select Citywalk, New Delhi',
-    status: 'watch',
-    headline: 'Getting worse — clean soon',
-    reason: 'Smell slowly rising since lunch.',
-    urgent: false,
-    assignedBy: 'Auto from sensor',
-    flaggedAt: '2 hours ago',
-    done: false,
+    id: 'j3', toilet: 'Gents toilet 1', toiletHi: 'पुरुष शौचालय 1', type: 'Gents',
+    building: 'CTC Saket Block A', address: 'Saket, near Select Citywalk, New Delhi',
+    status: 'watch', headline: 'Getting worse', reason: 'Smell slowly rising since lunch.',
+    reasonHi: 'दोपहर से बदबू धीरे-धीरे बढ़ रही है।',
+    urgent: false, assignedBy: 'Auto from sensor', flaggedAt: '2 hours ago', done: false,
   },
   {
-    id: 'j4',
-    toilet: 'Accessible toilet',
-    type: 'Accessible',
-    building: 'CTC Saket Block A',
-    address: 'Saket, near Select Citywalk, New Delhi',
-    status: 'routine',
-    headline: 'Routine clean',
-    reason: 'Scheduled daily clean.',
-    urgent: false,
-    assignedBy: 'Ravi (facility)',
-    flaggedAt: 'Today',
-    done: false,
+    id: 'j4', toilet: 'Accessible toilet', toiletHi: 'दिव्यांग शौचालय', type: 'Accessible',
+    building: 'CTC Saket Block A', address: 'Saket, near Select Citywalk, New Delhi',
+    status: 'routine', headline: 'Routine clean', reason: 'Scheduled daily clean.',
+    reasonHi: 'रोज़ की तय सफ़ाई।',
+    urgent: false, assignedBy: 'Ravi (facility)', flaggedAt: 'Today', done: false,
   },
   {
-    id: 'j5',
-    toilet: 'Ladies toilet 2',
-    type: 'Ladies',
-    building: 'CTC Saket Block A',
-    address: 'Saket, near Select Citywalk, New Delhi',
-    status: 'routine',
-    headline: 'Routine clean',
-    reason: 'Morning clean.',
-    urgent: false,
-    assignedBy: 'Ravi (facility)',
-    flaggedAt: 'Today, 7:30 am',
-    done: true,
-    cleanedAt: 'Today, 7:40 am',
-    note: 'Mopped, refilled soap.',
+    id: 'j5', toilet: 'Ladies toilet 2', toiletHi: 'महिला शौचालय 2', type: 'Ladies',
+    building: 'CTC Saket Block A', address: 'Saket, near Select Citywalk, New Delhi',
+    status: 'routine', headline: 'Routine clean', reason: 'Morning clean.',
+    reasonHi: 'सुबह की सफ़ाई।',
+    urgent: false, assignedBy: 'Ravi (facility)', flaggedAt: 'Today, 7:30 am', done: true,
+    cleanedAt: 'Today, 7:40 am', note: 'Mopped, refilled soap.', noteHi: 'पोछा लगाया, साबुन भरा।',
   },
   {
-    id: 'j6',
-    toilet: 'Gents toilet 3',
-    type: 'Gents',
-    building: 'CTC Saket Block A',
-    address: 'Saket, near Select Citywalk, New Delhi',
-    status: 'act',
-    headline: 'Smelled bad — cleaned',
-    reason: 'High ammonia earlier.',
-    urgent: false,
-    assignedBy: 'Auto from sensor',
-    flaggedAt: 'Today, 9:10 am',
-    done: true,
-    cleanedAt: 'Today, 9:35 am',
-    note: 'AS-1182 — drain flushed, floor mopped.',
+    id: 'j6', toilet: 'Gents toilet 3', toiletHi: 'पुरुष शौचालय 3', type: 'Gents',
+    building: 'CTC Saket Block A', address: 'Saket, near Select Citywalk, New Delhi',
+    status: 'act', headline: 'Smelled bad', reason: 'High ammonia earlier.',
+    reasonHi: 'पहले अमोनिया ज़्यादा था।',
+    urgent: false, assignedBy: 'Auto from sensor', flaggedAt: 'Today, 9:10 am', done: true,
+    cleanedAt: 'Today, 9:35 am', note: 'AS-1182 — drain flushed, floor mopped.', noteHi: 'AS-1182 — नाली साफ़, फ़र्श पोछा।',
   },
   {
-    id: 'j7',
-    toilet: 'Gents toilet 1',
-    type: 'Gents',
-    building: 'CTC Ajmeri Gate School Road',
-    address: 'Ajmeri Gate, near New Delhi Railway Station',
-    status: 'watch',
-    headline: 'Getting worse — clean soon',
-    reason: 'Smell slowly rising.',
-    urgent: false,
-    assignedBy: 'Ravi (facility)',
-    flaggedAt: '1 hour ago',
-    done: false,
+    id: 'j7', toilet: 'Gents toilet 1', toiletHi: 'पुरुष शौचालय 1', type: 'Gents',
+    building: 'CTC Ajmeri Gate School Road', address: 'Ajmeri Gate, near New Delhi Railway Station',
+    status: 'watch', headline: 'Getting worse', reason: 'Smell slowly rising.',
+    reasonHi: 'बदबू धीरे-धीरे बढ़ रही है।',
+    urgent: false, assignedBy: 'Ravi (facility)', flaggedAt: '1 hour ago', done: false,
   },
   {
-    id: 'j8',
-    toilet: 'Ladies toilet 1',
-    type: 'Ladies',
-    building: 'CTC Ajmeri Gate School Road',
-    address: 'Ajmeri Gate, near New Delhi Railway Station',
-    status: 'routine',
-    headline: 'Routine clean',
-    reason: 'Scheduled daily clean.',
-    urgent: false,
-    assignedBy: 'Ravi (facility)',
-    flaggedAt: 'Today',
-    done: false,
+    id: 'j8', toilet: 'Ladies toilet 1', toiletHi: 'महिला शौचालय 1', type: 'Ladies',
+    building: 'CTC Ajmeri Gate School Road', address: 'Ajmeri Gate, near New Delhi Railway Station',
+    status: 'routine', headline: 'Routine clean', reason: 'Scheduled daily clean.',
+    reasonHi: 'रोज़ की तय सफ़ाई।',
+    urgent: false, assignedBy: 'Ravi (facility)', flaggedAt: 'Today', done: false,
   },
 ];
 
@@ -149,8 +94,8 @@ export function cleanerJobById(id: string) {
   return CLEANER_JOBS.find((j) => j.id === id);
 }
 
-export const JOB_META: Record<JobStatus, { label: string; color: string; soft: string; icon: string }> = {
-  act: { label: 'Clean now', color: '#DC2F3A', soft: '#FBE4E6', icon: 'alert-circle' },
-  watch: { label: 'Clean soon', color: '#C07A05', soft: '#FBEFD6', icon: 'clock-alert-outline' },
-  routine: { label: 'Routine', color: '#0E7490', soft: '#D6EDF3', icon: 'broom' },
+export const JOB_META: Record<JobStatus, { color: string; soft: string; icon: string }> = {
+  act: { color: '#E23D3D', soft: '#FBE4E4', icon: 'alert-circle' },
+  watch: { color: '#D98A0B', soft: '#FBEED6', icon: 'clock-alert-outline' },
+  routine: { color: '#0E7490', soft: '#D6EDF3', icon: 'broom' },
 };

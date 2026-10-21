@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Redirect, Tabs } from 'expo-router';
+import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
 import { colors, fontFamily } from '@/theme';
 
@@ -12,6 +13,7 @@ function tabIcon(name: string) {
 
 export default function CleanerLayout() {
   const { role, ready } = useSession();
+  const { t } = useLang();
   if (ready && !role) return <Redirect href="/login" />;
   if (ready && role && role.id !== 'cleaner') return <Redirect href="/(tabs)" />;
 
@@ -25,9 +27,9 @@ export default function CleanerLayout() {
         tabBarLabelStyle: { fontFamily: fontFamily.semibold, fontSize: 11 },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'My jobs', tabBarIcon: tabIcon('clipboard-check-outline') }} />
-      <Tabs.Screen name="history" options={{ title: 'Done', tabBarIcon: tabIcon('check-all') }} />
-      <Tabs.Screen name="me" options={{ title: 'Me', tabBarIcon: tabIcon('account') }} />
+      <Tabs.Screen name="index" options={{ title: t('tab.myJobs'), tabBarIcon: tabIcon('clipboard-check-outline') }} />
+      <Tabs.Screen name="history" options={{ title: t('tab.done'), tabBarIcon: tabIcon('check-all') }} />
+      <Tabs.Screen name="me" options={{ title: t('tab.me'), tabBarIcon: tabIcon('account') }} />
     </Tabs>
   );
 }

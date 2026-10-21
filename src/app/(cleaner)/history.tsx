@@ -2,29 +2,31 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { CLEANER_JOBS } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
 
 export default function CleanerHistory() {
+  const { t, lang } = useLang();
   const done = CLEANER_JOBS.filter((j) => j.done);
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader title="Done" subtitle={`${done.length} cleaned today`} />
+      <AppHeader title={t('tab.done')} subtitle={t('done.cleanedToday', { n: done.length })} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
-        {done.length === 0 && <Txt variant="body" color={colors.textMuted}>Nothing logged yet today.</Txt>}
+        {done.length === 0 && <Txt variant="body" color={colors.textMuted}>{t('done.empty')}</Txt>}
         {done.map((j) => (
           <View key={j.id} style={styles.card}>
             <View style={styles.photo}><MaterialCommunityIcons name="image-check" size={24} color={colors.good} /></View>
             <View style={{ flex: 1 }}>
               <View style={styles.nameRow}>
-                <Txt variant="h3" style={{ flexShrink: 1 }}>{j.toilet}</Txt>
-                <View style={styles.typePill}><Txt variant="tiny" color={colors.textMuted}>{j.type}</Txt></View>
+                <Txt variant="h3" style={{ flexShrink: 1 }}>{lang === 'hi' ? j.toiletHi : j.toilet}</Txt>
+                <View style={styles.typePill}><Txt variant="tiny" color={colors.textMuted}>{t(`type.${j.type}`)}</Txt></View>
               </View>
               <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{j.building}</Txt>
-              {j.note ? <Txt variant="small" color={colors.text} style={{ marginTop: 6 }}>“{j.note}”</Txt> : null}
+              {(j.note || j.noteHi) ? <Txt variant="small" color={colors.text} style={{ marginTop: 6 }}>“{lang === 'hi' ? j.noteHi : j.note}”</Txt> : null}
               <View style={styles.meta}>
                 <MaterialCommunityIcons name="check-circle" size={13} color={colors.good} />
-                <Txt variant="tiny" color={colors.textSubtle}>Cleaned {j.cleanedAt}</Txt>
+                <Txt variant="tiny" color={colors.textSubtle}>{t('done.cleanedAt', { t: j.cleanedAt ?? '' })}</Txt>
               </View>
             </View>
           </View>

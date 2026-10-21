@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { Alert as RNAlert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
 import { CLEANER } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
@@ -11,26 +12,34 @@ type Row = { icon: string; label: string; sub?: string; onPress?: () => void };
 
 export default function CleanerMe() {
   const { signOut } = useSession();
-  const soon = (w: string) => () => RNAlert.alert(w, 'Part of the prototype.');
+  const { t, lang, setLang } = useLang();
+
+  const pickLanguage = () =>
+    RNAlert.alert(t('me.pickLanguage'), undefined, [
+      { text: 'English', onPress: () => setLang('en') },
+      { text: 'हिन्दी', onPress: () => setLang('hi') },
+    ]);
+
   const rows: Row[] = [
-    { icon: 'office-building-marker', label: CLEANER.buildings.length > 1 ? 'My buildings' : 'My building', sub: CLEANER.buildings.join(', ') },
-    { icon: 'phone', label: 'My number', sub: CLEANER.phone },
-    { icon: 'translate', label: 'Language', sub: 'English', onPress: soon('Language') },
-    { icon: 'help-circle-outline', label: 'Help', onPress: soon('Help') },
+    { icon: 'office-building-marker', label: CLEANER.buildings.length > 1 ? t('me.myBuildings') : t('me.myBuilding'), sub: CLEANER.buildings.join(', ') },
+    { icon: 'phone', label: t('me.myNumber'), sub: CLEANER.phone },
+    { icon: 'translate', label: t('me.language'), sub: lang === 'hi' ? 'हिन्दी' : 'English', onPress: pickLanguage },
+    { icon: 'bell-outline', label: t('me.notifications'), onPress: () => router.push('/notifications') },
+    { icon: 'help-circle-outline', label: t('me.help'), onPress: () => RNAlert.alert(t('me.help')) },
   ];
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader title="Me">
+      <AppHeader title={t('tab.me')}>
         <View style={styles.profile}>
           <View style={styles.avatar}><Txt variant="display" color={colors.primary}>{CLEANER.name[0]}</Txt></View>
           <View style={{ flex: 1 }}>
             <Txt variant="h2" color="#FFFFFF">{CLEANER.name}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>Cleaner in {CLEANER.area}</Txt>
+            <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>{t('me.cleaner')}</Txt>
           </View>
           <Pressable style={styles.switch} onPress={() => router.push('/switch-role')}>
             <MaterialCommunityIcons name="swap-horizontal" size={16} color="#FFFFFF" />
-            <Txt variant="tiny" color="#FFFFFF">Switch</Txt>
+            <Txt variant="tiny" color="#FFFFFF">{t('common.switch')}</Txt>
           </Pressable>
         </View>
       </AppHeader>
@@ -51,9 +60,8 @@ export default function CleanerMe() {
 
         <Pressable style={styles.signOut} onPress={() => { signOut(); router.replace('/login'); }}>
           <MaterialCommunityIcons name="logout" size={18} color={colors.act} />
-          <Txt variant="bodyMed" color={colors.act}>Sign out</Txt>
+          <Txt variant="bodyMed" color={colors.act}>{t('me.signOut')}</Txt>
         </Pressable>
-        <Txt variant="tiny" color={colors.textSubtle} style={{ textAlign: 'center', marginTop: spacing.lg }}>Agrim Suchak · Cleaner · v0.4</Txt>
       </ScrollView>
     </View>
   );

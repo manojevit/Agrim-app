@@ -19,7 +19,7 @@ export default function BlockMe() {
   ];
   const general: Row[] = [
     { icon: 'office-building-marker', label: 'My cluster', sub: `${BLOCK_BUILDINGS.length} buildings · ${BLOCK.area}` },
-    { icon: 'bell-outline', label: 'Notification settings', sub: 'How alerts reach this phone', onPress: soon('Notification settings') },
+    { icon: 'bell-outline', label: 'Notification settings', sub: 'How alerts reach this phone', onPress: () => router.push('/notifications') },
     { icon: 'help-circle-outline', label: 'Help', onPress: soon('Help') },
   ];
 

@@ -5,18 +5,15 @@ import { Alert as RNAlert, Pressable, ScrollView, StyleSheet, View } from 'react
 import { Button, TextInput } from 'react-native-paper';
 import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { cleanerJobById, JOB_META } from '@/data/cleaner';
 import { colors, radius, spacing } from '@/theme';
 
 type Stage = 'todo' | 'doing' | 'done';
-const PROBLEM: Record<'act' | 'watch' | 'routine', string> = {
-  act: 'Needs cleaning now',
-  watch: 'Getting worse',
-  routine: 'Routine clean',
-};
 
 export default function CleanerJob() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { t, lang } = useLang();
   const job = cleanerJobById(id);
   const [stage, setStage] = useState<Stage>(job?.done ? 'done' : 'todo');
   const [photo, setPhoto] = useState(false);
@@ -24,63 +21,63 @@ export default function CleanerJob() {
 
   if (!job) return <View style={{ flex: 1, backgroundColor: colors.bg }}><AppHeader back title="Job" /></View>;
   const m = JOB_META[job.status];
+  const toilet = lang === 'hi' ? job.toiletHi : job.toilet;
+  const by = job.assignedBy.toLowerCase().includes('sensor') ? t('by.sensor') : job.assignedBy;
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader back title={job.toilet} subtitle={job.building}>
+      <AppHeader back title={toilet} subtitle={job.building}>
         <View style={styles.statusCard}>
           <View style={[styles.medallion, { backgroundColor: m.color }]}>
             <MaterialCommunityIcons name={m.icon as any} size={24} color="#FFFFFF" />
           </View>
           <View style={{ flex: 1 }}>
-            <Txt variant="h3" color="#FFFFFF">{PROBLEM[job.status]}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{job.reason}</Txt>
-            <Txt variant="tiny" color="rgba(255,255,255,0.6)" style={{ marginTop: 6 }}>Flagged by {job.assignedBy.toLowerCase()}, {job.flaggedAt}</Txt>
+            <Txt variant="h3" color="#FFFFFF">{t(`problem.${job.status}`)}</Txt>
+            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{lang === 'hi' ? job.reasonHi : job.reason}</Txt>
+            <Txt variant="tiny" color="rgba(255,255,255,0.6)" style={{ marginTop: 6 }}>{t('job.flaggedBy', { by, t: job.flaggedAt })}</Txt>
           </View>
         </View>
       </AppHeader>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
-        {/* Getting there */}
-        <Txt variant="h3" style={{ marginBottom: spacing.sm }}>Getting there</Txt>
+        <Txt variant="h3" style={{ marginBottom: spacing.sm }}>{t('job.gettingThere')}</Txt>
         <View style={styles.card}>
           <View style={styles.mapStrip}>
             <MaterialCommunityIcons name="map-marker" size={22} color={colors.primary} />
             <Txt variant="small" color={colors.textMuted} style={{ flex: 1 }}>{job.address}</Txt>
           </View>
-          <Button mode="contained" icon="navigation-variant" style={styles.dirBtn} contentStyle={{ height: 48 }} labelStyle={styles.midLabel} onPress={() => RNAlert.alert('Directions', `Opening the map to ${job.building}.`)}>
-            Get directions
+          <Button mode="contained" icon="navigation-variant" style={styles.dirBtn} contentStyle={{ height: 48 }} labelStyle={styles.midLabel} onPress={() => RNAlert.alert(t('job.getDirections'), `${job.building}`)}>
+            {t('job.getDirections')}
           </Button>
         </View>
 
-        {/* Action */}
         {stage === 'done' ? (
           <View style={[styles.card, styles.doneCard]}>
             <View style={styles.doneHead}>
               <View style={styles.doneIcon}><MaterialCommunityIcons name="check-bold" size={22} color="#FFFFFF" /></View>
               <View style={{ flex: 1 }}>
-                <Txt variant="h3" color={colors.good}>Cleaned and logged</Txt>
-                <Txt variant="small" color={colors.textMuted} style={{ marginTop: 1 }}>Photo saved as proof.</Txt>
+                <Txt variant="h3" color={colors.good}>{t('job.cleanedLogged')}</Txt>
+                <Txt variant="small" color={colors.textMuted} style={{ marginTop: 1 }}>{t('job.photoSaved')}</Txt>
               </View>
             </View>
-            {(note || job.note) ? <Txt variant="small" color={colors.textMuted} style={{ marginTop: spacing.sm }}>Note: {note || job.note}</Txt> : null}
-            <Button mode="contained" style={styles.bigBtn} contentStyle={{ height: 50 }} labelStyle={styles.bigLabel} onPress={() => router.back()}>Back to my jobs</Button>
+            {(note || job.note) ? <Txt variant="small" color={colors.textMuted} style={{ marginTop: spacing.sm }}>{t('job.noteLabel')}: {note || (lang === 'hi' ? job.noteHi : job.note)}</Txt> : null}
+            <Button mode="contained" style={styles.bigBtn} contentStyle={{ height: 50 }} labelStyle={styles.bigLabel} onPress={() => router.back()}>{t('job.backToJobs')}</Button>
           </View>
         ) : stage === 'todo' ? (
           <Button mode="contained" icon="play" style={styles.startBtn} contentStyle={{ height: 54 }} labelStyle={styles.bigLabel} onPress={() => setStage('doing')}>
-            Start cleaning
+            {t('job.start')}
           </Button>
         ) : (
           <View style={styles.card}>
-            <Txt variant="h3">Finished? Log it</Txt>
-            <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2, marginBottom: spacing.md }}>Add a photo so your supervisor can see it's done.</Txt>
+            <Txt variant="h3">{t('job.finishedLog')}</Txt>
+            <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2, marginBottom: spacing.md }}>{t('job.addPhotoHint')}</Txt>
             <Pressable style={[styles.photo, photo && styles.photoDone]} onPress={() => setPhoto((p) => !p)}>
               <MaterialCommunityIcons name={photo ? 'image-check' : 'camera-plus-outline'} size={28} color={photo ? colors.good : colors.textMuted} />
-              <Txt variant="label" color={photo ? colors.good : colors.textMuted} style={{ marginTop: spacing.xs }}>{photo ? 'Photo added' : 'Take a photo'}</Txt>
+              <Txt variant="label" color={photo ? colors.good : colors.textMuted} style={{ marginTop: spacing.xs }}>{photo ? t('job.photoAdded') : t('job.takePhoto')}</Txt>
             </Pressable>
-            <TextInput mode="outlined" label="Note (optional)" value={note} onChangeText={setNote} placeholder="e.g. mopped, drain flushed" outlineStyle={{ borderRadius: radius.md }} style={{ backgroundColor: colors.surface, marginTop: spacing.md }} />
-            <Button mode="contained" icon="check" disabled={!photo} style={styles.bigBtn} contentStyle={{ height: 52 }} labelStyle={styles.bigLabel} onPress={() => { setStage('done'); RNAlert.alert('Cleaned', `${job.toilet} is logged as cleaned.`); }}>
-              {photo ? "I've cleaned it" : 'Add a photo to finish'}
+            <TextInput mode="outlined" label={t('job.note')} value={note} onChangeText={setNote} outlineStyle={{ borderRadius: radius.md }} style={{ backgroundColor: colors.surface, marginTop: spacing.md }} />
+            <Button mode="contained" icon="check" disabled={!photo} style={styles.bigBtn} contentStyle={{ height: 52 }} labelStyle={styles.bigLabel} onPress={() => { setStage('done'); RNAlert.alert(t('job.cleanedLogged'), toilet); }}>
+              {photo ? t('job.iveCleaned') : t('job.addPhotoFinish')}
             </Button>
           </View>
         )}

@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SessionProvider } from '@/context/session';
+import { LangProvider } from '@/context/lang';
 import { colors, paperTheme } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +40,7 @@ export default function RootLayout() {
         theme={paperTheme}
         settings={{ icon: (props) => <MaterialCommunityIcons {...props} /> }}
       >
+       <LangProvider>
         <SessionProvider>
           <StatusBar style="dark" />
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
@@ -54,10 +56,12 @@ export default function RootLayout() {
             <Stack.Screen name="facility-toilet/[id]" />
             <Stack.Screen name="facility-alert/[id]" />
             <Stack.Screen name="block-building/[id]" />
+            <Stack.Screen name="notifications" />
             <Stack.Screen name="cleaner-alert" options={{ presentation: 'fullScreenModal' }} />
             <Stack.Screen name="switch-role" options={{ presentation: 'modal' }} />
           </Stack>
         </SessionProvider>
+       </LangProvider>
       </PaperProvider>
     </SafeAreaProvider>
   );

@@ -2,11 +2,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Txt } from './Txt';
+import { useLang } from '@/context/lang';
 import { BlockBuilding } from '@/data/block';
 import { colors, elevation, radius, spacing, statusMeta } from '@/theme';
 
 export function BuildingCard({ building, variant = 'focus' }: { building: BlockBuilding; variant?: 'focus' | 'row' }) {
+  const { t, lang } = useLang();
   const m = statusMeta[building.status];
+  const headline = lang === 'hi' ? building.headlineHi : building.headline;
   const open = () => router.push(`/block-building/${building.id}`);
 
   if (variant === 'row') {
@@ -17,9 +20,9 @@ export function BuildingCard({ building, variant = 'focus' }: { building: BlockB
         </View>
         <View style={{ flex: 1 }}>
           <Txt variant="bodyMed">{building.name}</Txt>
-          <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: 1 }}>{building.reporting}/{building.toilets} sensors sending</Txt>
+          <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: 1 }}>{t('b.sensorsSending', { r: building.reporting, n: building.toilets })}</Txt>
         </View>
-        <Txt variant="tiny" color={m.color} style={{ marginRight: spacing.xs }}>{m.label}</Txt>
+        <Txt variant="tiny" color={m.color} style={{ marginRight: spacing.xs }}>{t(`st.${building.status}`)}</Txt>
         <MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSubtle} />
       </Pressable>
     );
@@ -33,21 +36,21 @@ export function BuildingCard({ building, variant = 'focus' }: { building: BlockB
         </View>
         <View style={{ flex: 1 }}>
           <Txt variant="h3">{building.name}</Txt>
-          <Txt variant="label" color={m.color} style={{ marginTop: 6 }}>{building.headline}</Txt>
-          <Txt variant="small" color={colors.textMuted} style={{ marginTop: 1 }}>{building.reporting}/{building.toilets} sensors sending · {building.cleaners} cleaners</Txt>
+          <Txt variant="label" color={m.color} style={{ marginTop: 6 }}>{headline}</Txt>
+          <Txt variant="small" color={colors.textMuted} style={{ marginTop: 1 }}>{t('b.sensorsCleaners', { r: building.reporting, n: building.toilets, c: building.cleaners })}</Txt>
         </View>
       </View>
       <View style={styles.focusFoot}>
         {building.handedUp > 0 ? (
           <View style={styles.handedTag}>
             <MaterialCommunityIcons name="arrow-up" size={12} color={colors.act} />
-            <Txt variant="tiny" color={colors.act}>{building.handedUp} handed up to you</Txt>
+            <Txt variant="tiny" color={colors.act}>{t('b.handedToYou', { n: building.handedUp })}</Txt>
           </View>
         ) : (
-          <Txt variant="tiny" color={colors.textSubtle}>{building.openAlerts} open {building.openAlerts === 1 ? 'alert' : 'alerts'}</Txt>
+          <Txt variant="tiny" color={colors.textSubtle}>{t('b.openAlerts', { n: building.openAlerts })}</Txt>
         )}
         <View style={[styles.openBtn, { backgroundColor: m.color }]}>
-          <Txt variant="label" color="#FFFFFF">Open</Txt>
+          <Txt variant="label" color="#FFFFFF">{t('c.open')}</Txt>
           <MaterialCommunityIcons name="arrow-right" size={16} color="#FFFFFF" />
         </View>
       </View>

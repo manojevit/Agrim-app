@@ -1,16 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, View } from 'react-native';
 import { Txt } from './Txt';
+import { useLang } from '@/context/lang';
 import { radius, spacing, statusMeta, StatusKey } from '@/theme';
 
 /** The one status pill. Icon + word, in the status colour. */
 export function StatusChip({ status, size = 'md' }: { status: StatusKey; size?: 'sm' | 'md' }) {
+  const { t } = useLang();
   const m = statusMeta[status];
   const sm = size === 'sm';
   return (
     <View style={[styles.pill, { backgroundColor: m.soft, paddingVertical: sm ? 3 : 5, paddingHorizontal: sm ? 8 : 10 }]}>
       <MaterialCommunityIcons name={m.icon as any} size={sm ? 12 : 14} color={m.color} />
-      <Txt variant={sm ? 'tiny' : 'label'} color={m.color}>{m.label}</Txt>
+      <Txt variant={sm ? 'tiny' : 'label'} color={m.color}>{t(`st.${status}`)}</Txt>
     </View>
   );
 }

@@ -4,18 +4,20 @@ import { Chip } from 'react-native-paper';
 import { AlertCard } from '@/components/AlertCard';
 import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { blockAlerts } from '@/data/block';
 import { colors, spacing } from '@/theme';
 
 type Filter = 'handedUp' | 'open' | 'resolved';
-const FILTERS: { key: Filter; label: string }[] = [
-  { key: 'handedUp', label: 'Handed up to me' },
-  { key: 'open', label: 'All open' },
-  { key: 'resolved', label: 'Sorted' },
-];
 
 export default function BlockAlerts() {
+  const { t } = useLang();
   const [filter, setFilter] = useState<Filter>('handedUp');
+  const FILTERS: { key: Filter; label: string }[] = [
+    { key: 'handedUp', label: t('b.handedToMe') },
+    { key: 'open', label: t('b.allOpen') },
+    { key: 'resolved', label: t('al.sorted') },
+  ];
   const list = blockAlerts.filter((a) => {
     if (filter === 'handedUp') return a.state === 'handedUp';
     if (filter === 'open') return a.state !== 'resolved';
@@ -24,7 +26,7 @@ export default function BlockAlerts() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader title="Alerts" subtitle="Across your cluster" />
+      <AppHeader title={t('tab.alerts')} subtitle={t('b.acrossCluster')} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: spacing.sm, paddingBottom: spacing.md }}>
           {FILTERS.map((f) => (
@@ -35,8 +37,8 @@ export default function BlockAlerts() {
             </Chip>
           ))}
         </ScrollView>
-        {filter === 'handedUp' && <Txt variant="small" color={colors.textMuted} style={{ marginBottom: spacing.sm }}>These reached you because nobody below answered in time.</Txt>}
-        {list.length === 0 && <Txt variant="body" color={colors.textMuted}>Nothing here right now.</Txt>}
+        {filter === 'handedUp' && <Txt variant="small" color={colors.textMuted} style={{ marginBottom: spacing.sm }}>{t('b.handedExplainList')}</Txt>}
+        {list.length === 0 && <Txt variant="body" color={colors.textMuted}>{t('b.nothingHere')}</Txt>}
         {list.map((a) => <AlertCard key={a.id} alert={a} />)}
       </ScrollView>
     </View>

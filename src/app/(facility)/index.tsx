@@ -5,39 +5,40 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ProgressRing } from '@/components/ProgressRing';
 import { ToiletCard } from '@/components/ToiletCard';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { FACILITY, facilityAlerts, facilityToilets } from '@/data/facility';
 import { StatusKey, colors, radius, spacing } from '@/theme';
 
-function greeting() {
+function greetKey() {
   const h = new Date().getHours();
-  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  return h < 12 ? 'greet.morning' : h < 17 ? 'greet.afternoon' : 'greet.evening';
 }
 
 export default function FacilityHome() {
   const insets = useSafeAreaInsets();
+  const { t } = useLang();
   const toilets = facilityToilets;
   const total = toilets.length;
-  const good = toilets.filter((t) => t.status === 'good');
-  const needNow = toilets.filter((t) => t.status === 'act' || t.status === 'offline');
-  const reporting = toilets.filter((t) => t.status !== 'offline' && t.status !== 'never').length;
+  const good = toilets.filter((x) => x.status === 'good');
+  const needNow = toilets.filter((x) => x.status === 'act' || x.status === 'offline');
+  const reporting = toilets.filter((x) => x.status !== 'offline' && x.status !== 'never').length;
   const openAlerts = facilityAlerts.filter((a) => a.state !== 'resolved').length;
 
   const order: Record<StatusKey, number> = { act: 0, offline: 1, watch: 2, never: 3, good: 4 };
-  const others = toilets.filter((t) => !needNow.includes(t)).sort((a, b) => order[a.status] - order[b.status]);
+  const others = toilets.filter((x) => !needNow.includes(x)).sort((a, b) => order[a.status] - order[b.status]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: spacing.xxxl }}>
-        {/* Hero */}
         <View style={[styles.hero, { paddingTop: insets.top + spacing.md }]}>
           <View style={styles.heroTop}>
             <View style={{ flex: 1 }}>
-              <Txt variant="small" color="rgba(255,255,255,0.72)">{greeting()}, {FACILITY.name}</Txt>
+              <Txt variant="small" color="rgba(255,255,255,0.72)">{t(greetKey())}, {FACILITY.name}</Txt>
               <Txt variant="h1" color="#FFFFFF" style={{ marginTop: 2 }}>{FACILITY.building}</Txt>
             </View>
             <Pressable style={styles.switch} onPress={() => router.push('/switch-role')}>
               <MaterialCommunityIcons name="swap-horizontal" size={16} color="#FFFFFF" />
-              <Txt variant="tiny" color="#FFFFFF">Switch</Txt>
+              <Txt variant="tiny" color="#FFFFFF">{t('common.switch')}</Txt>
             </Pressable>
           </View>
 
@@ -45,29 +46,28 @@ export default function FacilityHome() {
             <ProgressRing size={76} stroke={9} progress={total ? good.length / total : 0} color="#FFFFFF" track="rgba(255,255,255,0.22)">
               <View style={{ alignItems: 'center' }}>
                 <Txt variant="h2" color="#FFFFFF">{good.length}</Txt>
-                <Txt variant="tiny" color="rgba(255,255,255,0.72)">of {total} good</Txt>
+                <Txt variant="tiny" color="rgba(255,255,255,0.72)">{t('cl.ofN', { n: total })}</Txt>
               </View>
             </ProgressRing>
             <View style={{ flex: 1 }}>
-              <Txt variant="h2" color="#FFFFFF">{needNow.length > 0 ? `${needNow.length} need you now` : 'All good'}</Txt>
-              <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>{reporting} of {total} sensors sending readings</Txt>
+              <Txt variant="h2" color="#FFFFFF">{needNow.length > 0 ? t('f.needYou', { n: needNow.length }) : t('f.allGood')}</Txt>
+              <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>{t('f.sensors', { r: reporting, n: total })}</Txt>
             </View>
           </View>
 
           <Pressable style={styles.callBtn} onPress={() => router.push('/staff')}>
             <MaterialCommunityIcons name="phone" size={18} color={colors.primary} />
-            <Txt variant="label" color={colors.primary}>Call a cleaner</Txt>
+            <Txt variant="label" color={colors.primary}>{t('f.callCleaner')}</Txt>
           </Pressable>
         </View>
 
         <View style={styles.body}>
-          {/* Open alerts banner */}
           {openAlerts > 0 && (
             <Pressable style={styles.alertBanner} onPress={() => router.push('/(facility)/alerts')}>
               <View style={styles.bellWrap}><MaterialCommunityIcons name="bell-ring" size={20} color={colors.act} /></View>
               <View style={{ flex: 1 }}>
-                <Txt variant="bodyMed">{openAlerts} open {openAlerts === 1 ? 'alert' : 'alerts'}</Txt>
-                <Txt variant="tiny" color={colors.textMuted} style={{ marginTop: 1 }}>Acknowledge them so they don't go up to your senior</Txt>
+                <Txt variant="bodyMed">{t('f.openAlerts', { n: openAlerts })}</Txt>
+                <Txt variant="tiny" color={colors.textMuted} style={{ marginTop: 1 }}>{t('f.ackThem')}</Txt>
               </View>
               <MaterialCommunityIcons name="chevron-right" size={20} color={colors.textSubtle} />
             </Pressable>
@@ -77,16 +77,16 @@ export default function FacilityHome() {
             <>
               <View style={styles.sectionRow}>
                 <View style={styles.liveDot} />
-                <Txt variant="h3" color={colors.act}>Needs attention now</Txt>
+                <Txt variant="h3" color={colors.act}>{t('f.needsAttention')}</Txt>
               </View>
-              {needNow.map((t) => <ToiletCard key={t.id} toilet={t} variant="focus" />)}
+              {needNow.map((x) => <ToiletCard key={x.id} toilet={x} variant="focus" />)}
             </>
           )}
 
           <Txt variant="h3" style={{ marginTop: needNow.length ? spacing.xl : spacing.md, marginBottom: spacing.sm }}>
-            {needNow.length ? 'Other toilets' : 'All toilets'}
+            {needNow.length ? t('f.otherToilets') : t('f.allToilets')}
           </Txt>
-          {others.map((t) => <ToiletCard key={t.id} toilet={t} variant="row" />)}
+          {others.map((x) => <ToiletCard key={x.id} toilet={x} variant="row" />)}
         </View>
       </ScrollView>
     </View>

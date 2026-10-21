@@ -32,13 +32,16 @@ export interface Toilet {
   id: string;
   serial: string; // LS-0001  (kept, but shown small)
   name: string; // "Gents toilet 2"
+  nameHi: string;
   block: string; // "CTC Saket Block A"
   path: string; // "Delhi NCR › South Delhi › Ward 12"
   status: StatusKey;
   /** Plain-language headline a cleaner understands. */
   headline: string;
+  headlineHi: string;
   /** Short reason in plain words. */
   reason: string;
+  reasonHi: string;
   lastSeen: string; // "just now", "2d ago"
   // The science — shown only under "details"
   aqi: number | null;
@@ -59,7 +62,9 @@ export interface Alert {
   id: string;
   /** Plain headline: what a person should understand. */
   headline: string; // "This toilet smells bad"
+  headlineHi: string;
   detail: string; // "Send someone to clean it"
+  detailHi: string;
   severity: 'act' | 'watch' | 'info';
   toiletName: string;
   block: string;

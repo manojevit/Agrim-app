@@ -6,31 +6,41 @@ import { Button } from 'react-native-paper';
 import { AppHeader } from '@/components/AppHeader';
 import { LevelMeter } from '@/components/LevelMeter';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { toiletById } from '@/data/toilets';
 import { colors, radius, spacing, statusMeta } from '@/theme';
 
-const odourWord = (n: number) => ['Fresh', 'Fresh', 'Light smell', 'Noticeable', 'Smelly', 'Very smelly'][n] ?? '—';
-const airWord = (a: number) => (a <= 100 ? 'Clean' : a <= 200 ? 'Okay' : a <= 300 ? 'Poor' : 'Very poor');
+const ODOUR = {
+  en: ['Fresh', 'Fresh', 'Light smell', 'Noticeable', 'Smelly', 'Very smelly'],
+  hi: ['ताज़ा', 'ताज़ा', 'हल्की बदबू', 'ध्यान देने योग्य', 'बदबूदार', 'बहुत बदबूदार'],
+};
+const airWord = (a: number, lang: 'en' | 'hi') => {
+  const en = a <= 100 ? 'Clean' : a <= 200 ? 'Okay' : a <= 300 ? 'Poor' : 'Very poor';
+  const hi = a <= 100 ? 'साफ़' : a <= 200 ? 'ठीक' : a <= 300 ? 'खराब' : 'बहुत खराब';
+  return lang === 'hi' ? hi : en;
+};
 
 export default function FacilityToilet() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { t, lang } = useLang();
   const toilet = toiletById(id);
   const [science, setScience] = useState(false);
   if (!toilet) return <View style={{ flex: 1, backgroundColor: colors.bg }}><AppHeader back title="Toilet" /></View>;
   const m = statusMeta[toilet.status];
   const hasData = toilet.aqi != null;
+  const name = lang === 'hi' ? toilet.nameHi : toilet.name;
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader back title={toilet.name} subtitle={toilet.block}>
+      <AppHeader back title={name} subtitle={toilet.block}>
         <View style={styles.statusCard}>
           <View style={[styles.medallion, { backgroundColor: m.color }]}>
             <MaterialCommunityIcons name={m.icon as any} size={24} color="#FFFFFF" />
           </View>
           <View style={{ flex: 1 }}>
-            <Txt variant="h3" color="#FFFFFF">{toilet.headline}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{toilet.reason}</Txt>
-            <Txt variant="tiny" color="rgba(255,255,255,0.6)" style={{ marginTop: 6 }}>Last reading {toilet.lastSeen}</Txt>
+            <Txt variant="h3" color="#FFFFFF">{lang === 'hi' ? toilet.headlineHi : toilet.headline}</Txt>
+            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{lang === 'hi' ? toilet.reasonHi : toilet.reason}</Txt>
+            <Txt variant="tiny" color="rgba(255,255,255,0.6)" style={{ marginTop: 6 }}>{t('c.lastReading', { t: toilet.lastSeen })}</Txt>
           </View>
         </View>
       </AppHeader>
@@ -38,22 +48,22 @@ export default function FacilityToilet() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         {hasData && (
           <View style={[styles.card, { gap: spacing.xl }]}>
-            <LevelMeter title="Smell" word={odourWord(toilet.odour!)} value={toilet.odour! / 5} tone={toilet.odour! >= 4 ? colors.act : toilet.odour! >= 3 ? colors.watch : colors.good} caption={`Odour level ${toilet.odour} of 5`} />
-            <LevelMeter title="Air" word={airWord(toilet.aqi!)} value={toilet.aqi! / 500} tone={toilet.aqi! > 300 ? colors.act : toilet.aqi! > 200 ? colors.watch : colors.good} caption={`Air quality index ${toilet.aqi} of 500`} />
+            <LevelMeter title={t('td.smell')} word={ODOUR[lang][toilet.odour!] ?? '—'} value={toilet.odour! / 5} tone={toilet.odour! >= 4 ? colors.act : toilet.odour! >= 3 ? colors.watch : colors.good} caption={t('td.odourOf', { n: toilet.odour! })} />
+            <LevelMeter title={t('td.air')} word={airWord(toilet.aqi!, lang)} value={toilet.aqi! / 500} tone={toilet.aqi! > 300 ? colors.act : toilet.aqi! > 200 ? colors.watch : colors.good} caption={t('td.airOf', { n: toilet.aqi! })} />
           </View>
         )}
 
         <View style={{ gap: spacing.sm, marginTop: hasData ? spacing.md : 0 }}>
-          {toilet.status === 'act' && <Button mode="contained" icon="phone" onPress={() => RNAlert.alert('Send a cleaner', `An automated voice call will tell the cleaners that ${toilet.name} needs cleaning. Cost about ₹7.`, [{ text: 'Cancel', style: 'cancel' }, { text: 'Call now' }])} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>Send a cleaner</Button>}
-          {toilet.status === 'offline' && <Button mode="contained" icon="wrench" onPress={() => RNAlert.alert('Reported', 'A maintenance check has been logged for this unit.')} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>Report sensor problem</Button>}
-          <Button mode="outlined" icon="check" onPress={() => RNAlert.alert('Cleaned', `${toilet.name} logged as cleaned just now.`)} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>Mark as cleaned</Button>
+          {toilet.status === 'act' && <Button mode="contained" icon="phone" onPress={() => RNAlert.alert(t('td.sendCleaner'), `${name}`, [{ text: 'OK' }])} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('td.sendCleaner')}</Button>}
+          {toilet.status === 'offline' && <Button mode="contained" icon="wrench" onPress={() => RNAlert.alert(t('td.reportSensor'))} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('td.reportSensor')}</Button>}
+          <Button mode="outlined" icon="check" onPress={() => RNAlert.alert(t('td.markCleaned'), name)} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>{t('td.markCleaned')}</Button>
         </View>
 
         {toilet.readings.length > 0 && (
           <>
             <Pressable style={styles.toggle} onPress={() => setScience((s) => !s)}>
               <MaterialCommunityIcons name="flask-outline" size={16} color={colors.textMuted} />
-              <Txt variant="label" color={colors.textMuted}>{science ? 'Hide the detailed readings' : 'Show the detailed readings'}</Txt>
+              <Txt variant="label" color={colors.textMuted}>{science ? t('td.hideReadings') : t('td.showReadings')}</Txt>
               <MaterialCommunityIcons name={science ? 'chevron-up' : 'chevron-down'} size={16} color={colors.textMuted} />
             </Pressable>
             {science && (

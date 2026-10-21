@@ -5,6 +5,7 @@ import { Alert as RNAlert, ScrollView, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { alertById } from '@/data/alerts';
 import { colors, radius, spacing } from '@/theme';
 
@@ -13,10 +14,10 @@ const sev = {
   watch: { color: colors.watch, icon: 'eye-outline' },
   info: { color: colors.offline, icon: 'information' },
 } as const;
-const STEPS = ['Smell rose', 'Alert raised', 'You told', 'On it', 'Cleaned', 'Back to normal'];
 
 export default function FacilityAlert() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { t, lang } = useLang();
   const alert = alertById(id);
   const [state, setState] = useState(alert?.state);
   if (!alert) return <View style={{ flex: 1, backgroundColor: colors.bg }}><AppHeader back title="Alert" /></View>;
@@ -25,31 +26,30 @@ export default function FacilityAlert() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader back title="Alert" subtitle={alert.toiletName}>
+      <AppHeader back title={t('tab.alerts')} subtitle={alert.toiletName}>
         <View style={styles.statusCard}>
           <View style={[styles.medallion, { backgroundColor: s.color }]}>
             <MaterialCommunityIcons name={s.icon as any} size={24} color="#FFFFFF" />
           </View>
           <View style={{ flex: 1 }}>
-            <Txt variant="h3" color="#FFFFFF">{alert.headline}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{alert.detail}</Txt>
+            <Txt variant="h3" color="#FFFFFF">{lang === 'hi' ? alert.headlineHi : alert.headline}</Txt>
+            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{lang === 'hi' ? alert.detailHi : alert.detail}</Txt>
           </View>
         </View>
       </AppHeader>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
-        {/* Progress */}
         <View style={styles.card}>
-          <Txt variant="h3" style={{ marginBottom: spacing.md }}>Where this is up to</Txt>
+          <Txt variant="h3" style={{ marginBottom: spacing.md }}>{t('ad.whereUpTo')}</Txt>
           <View style={{ gap: spacing.sm }}>
-            {STEPS.map((label, i) => {
+            {[0, 1, 2, 3, 4, 5].map((i) => {
               const active = i <= stepIndex;
               return (
-                <View key={label} style={styles.step}>
+                <View key={i} style={styles.step}>
                   <View style={[styles.dot, active && { backgroundColor: s.color, borderColor: s.color }]}>
                     {active && <MaterialCommunityIcons name="check" size={11} color="#FFFFFF" />}
                   </View>
-                  <Txt variant={active ? 'bodyMed' : 'body'} color={active ? colors.text : colors.textSubtle}>{label}</Txt>
+                  <Txt variant={active ? 'bodyMed' : 'body'} color={active ? colors.text : colors.textSubtle}>{t(`step.${i}`)}</Txt>
                 </View>
               );
             })}
@@ -57,25 +57,23 @@ export default function FacilityAlert() {
           {alert.state === 'handedUp' && alert.handedUpTo && (
             <View style={styles.handed}>
               <MaterialCommunityIcons name="arrow-up-circle" size={16} color={colors.watch} />
-              <Txt variant="small" style={{ flex: 1 }}>Passed up to {alert.handedUpTo} because nobody answered in time.</Txt>
+              <Txt variant="small" style={{ flex: 1 }}>{t('ad.handedExplain', { who: alert.handedUpTo })}</Txt>
             </View>
           )}
         </View>
 
-        {/* Actions */}
         {state !== 'resolved' && (
           <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
-            {state !== 'onit' && <Button mode="contained" icon="hand-back-right" onPress={() => { setState('onit'); RNAlert.alert("You're on it", 'The clock has stopped. It won\'t be passed up while you handle it.'); }} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>I'm on it</Button>}
-            <Button mode="outlined" icon="phone" onPress={() => RNAlert.alert('Send a cleaner', `An automated voice call will tell the cleaners that ${alert.toiletName} needs cleaning. Cost about ₹7.`, [{ text: 'Cancel', style: 'cancel' }, { text: 'Call now' }])} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>Send a cleaner</Button>
-            <Button mode="text" icon="arrow-up" onPress={() => { setState('handedUp'); RNAlert.alert('Passed up', 'Your senior has been notified.'); }} labelStyle={styles.btnLabel} textColor={colors.primary}>Pass to my senior</Button>
+            {state !== 'onit' && <Button mode="contained" icon="hand-back-right" onPress={() => { setState('onit'); RNAlert.alert(t('ad.imOnIt')); }} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('ad.imOnIt')}</Button>}
+            <Button mode="outlined" icon="phone" onPress={() => RNAlert.alert(t('td.sendCleaner'), `${alert.toiletName}`, [{ text: 'OK' }])} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>{t('td.sendCleaner')}</Button>
+            <Button mode="text" icon="arrow-up" onPress={() => { setState('handedUp'); RNAlert.alert(t('ad.passUp')); }} labelStyle={styles.btnLabel} textColor={colors.primary}>{t('ad.passUp')}</Button>
           </View>
         )}
 
-        {/* Why it fired */}
         <View style={[styles.card, { padding: 0, marginTop: spacing.md }]}>
-          <Row label="Why it fired" value={alert.tech} />
-          <Row label="Sensor ID" value={alert.serial} />
-          <Row label="Raised" value={alert.age} last />
+          <Row label={t('ad.whyFired')} value={alert.tech} />
+          <Row label={t('ad.sensorId')} value={alert.serial} />
+          <Row label={t('ad.raised')} value={alert.age} last />
         </View>
       </ScrollView>
     </View>

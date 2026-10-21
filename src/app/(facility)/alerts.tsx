@@ -1,63 +1,39 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Chip } from 'react-native-paper';
+import { AlertCard } from '@/components/AlertCard';
 import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { facilityAlerts } from '@/data/facility';
-import { Alert } from '@/data/types';
-import { colors, elevation, radius, spacing } from '@/theme';
-
-const sev = {
-  act: { color: colors.act, soft: colors.actSoft, icon: 'alert-circle' },
-  watch: { color: colors.watch, soft: colors.watchSoft, icon: 'eye-outline' },
-  info: { color: colors.offline, soft: colors.offlineSoft, icon: 'information' },
-} as const;
-const stateLabel: Record<Alert['state'], string> = { new: 'New', onit: 'You\'re on it', handedUp: 'Passed to senior', resolved: 'Sorted' };
+import { colors, spacing } from '@/theme';
 
 type Filter = 'open' | 'resolved';
 
 export default function FacilityAlerts() {
+  const { t } = useLang();
   const [filter, setFilter] = useState<Filter>('open');
   const list = facilityAlerts.filter((a) => (filter === 'open' ? a.state !== 'resolved' : a.state === 'resolved'));
+  const FILTERS: { key: Filter; label: string }[] = [
+    { key: 'open', label: t('al.needsAction') },
+    { key: 'resolved', label: t('al.sorted') },
+  ];
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader title="Alerts" subtitle="What needs doing, in plain words" />
+      <AppHeader title={t('tab.alerts')} subtitle={t('al.plain')} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         <View style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md }}>
-          {(['open', 'resolved'] as Filter[]).map((f) => (
-            <Chip key={f} selected={filter === f} onPress={() => setFilter(f)} showSelectedCheck={false}
-              style={[styles.chip, filter === f && { backgroundColor: colors.primary }]}
-              textStyle={{ fontFamily: 'PlusJakartaSans_600SemiBold', color: filter === f ? '#FFFFFF' : colors.textMuted }}>
-              {f === 'open' ? 'Needs action' : 'Sorted'}
+          {FILTERS.map((f) => (
+            <Chip key={f.key} selected={filter === f.key} onPress={() => setFilter(f.key)} showSelectedCheck={false}
+              style={[styles.chip, filter === f.key && { backgroundColor: colors.primary }]}
+              textStyle={{ fontFamily: 'PlusJakartaSans_600SemiBold', color: filter === f.key ? '#FFFFFF' : colors.textMuted }}>
+              {f.label}
             </Chip>
           ))}
         </View>
-
-        {list.length === 0 && <Txt variant="body" color={colors.textMuted}>Nothing here. Nicely done.</Txt>}
-        {list.map((a) => {
-          const s = sev[a.severity];
-          return (
-            <Pressable key={a.id} onPress={() => router.push(`/facility-alert/${a.id}`)} style={({ pressed }) => [styles.card, pressed && { opacity: 0.92 }]}>
-              <View style={{ flexDirection: 'row', gap: spacing.md }}>
-                <View style={[styles.medallion, { backgroundColor: s.color }]}>
-                  <MaterialCommunityIcons name={s.icon as any} size={22} color="#FFFFFF" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Txt variant="h3">{a.headline}</Txt>
-                  <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{a.detail}</Txt>
-                  <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: 8 }}>{a.toiletName}</Txt>
-                </View>
-              </View>
-              <View style={styles.foot}>
-                <View style={[styles.tag, { backgroundColor: s.soft }]}><Txt variant="tiny" color={s.color}>{stateLabel[a.state]}</Txt></View>
-                <Txt variant="tiny" color={colors.textSubtle}>{a.age}</Txt>
-              </View>
-            </Pressable>
-          );
-        })}
+        {list.length === 0 && <Txt variant="body" color={colors.textMuted}>{t('al.nothing')}</Txt>}
+        {list.map((a) => <AlertCard key={a.id} alert={a} />)}
       </ScrollView>
     </View>
   );
@@ -65,8 +41,4 @@ export default function FacilityAlerts() {
 
 const styles = StyleSheet.create({
   chip: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
-  card: { backgroundColor: colors.surface, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.border, padding: spacing.lg, marginBottom: spacing.md, ...elevation.card },
-  medallion: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
-  foot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.md, paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: colors.border },
-  tag: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill },
 });

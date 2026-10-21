@@ -57,6 +57,8 @@ export default function RootLayout() {
             <Stack.Screen name="facility-alert/[id]" />
             <Stack.Screen name="block-building/[id]" />
             <Stack.Screen name="notifications" />
+            <Stack.Screen name="edit-profile" />
+            <Stack.Screen name="map" />
             <Stack.Screen name="cleaner-alert" options={{ presentation: 'fullScreenModal' }} />
             <Stack.Screen name="switch-role" options={{ presentation: 'modal' }} />
           </Stack>

@@ -6,38 +6,39 @@
 import { MD3LightTheme, configureFonts } from 'react-native-paper';
 
 export const colors = {
-  // Surfaces — soft, slightly cool paper
-  bg: '#F4F5F9',
+  // Surfaces — cool, faintly teal paper
+  bg: '#F2F6F7',
   surface: '#FFFFFF',
-  surfaceAlt: '#EEF0F7',
-  surfaceSunken: '#E9ECF4',
-  border: '#E3E7F0',
-  borderStrong: '#D2D8E6',
+  surfaceAlt: '#E9F1F2',
+  surfaceSunken: '#E1EBEC',
+  border: '#DDE8EA',
+  borderStrong: '#C8D8DB',
 
-  // Text
-  text: '#14171F',
-  textMuted: '#59616F',
-  textSubtle: '#8A92A1',
+  // Text — deep teal-charcoal, never pure black
+  text: '#132421',
+  textMuted: '#51626A',
+  textSubtle: '#88999F',
   textInverse: '#FFFFFF',
 
-  // Brand — deep, confident indigo-blue (not generic flat blue)
-  primary: '#2743C4',
-  primaryDark: '#1C3196',
-  primarySoft: '#E7EAFB',
-  primaryTint: '#F2F4FD',
+  // Brand — deep teal (water / clean / health)
+  primary: '#0E7490',
+  primaryDark: '#0B5A72',
+  primarySoft: '#D6EDF3',
+  primaryTint: '#ECF6F9',
 
-  // Status — the one scale everyone learns
-  good: '#0E9F6E',
-  goodSoft: '#E1F5EC',
-  watch: '#C07A05',
-  watchSoft: '#FBEFD6',
-  act: '#DC2F3A',
-  actSoft: '#FBE4E6',
-  offline: '#5B6472',
-  offlineSoft: '#EAEDF2',
+  // Status — the one scale everyone learns (kept apart from the teal brand)
+  good: '#16A34A',
+  goodSoft: '#E1F5E9',
+  watch: '#D98A0B',
+  watchSoft: '#FBEED6',
+  act: '#E23D3D',
+  actSoft: '#FBE4E4',
+  offline: '#5B6B72',
+  offlineSoft: '#E7EEEF',
 
-  accent: '#6D4AFF',
-  accentSoft: '#ECE6FF',
+  // Warm accent (occasional highlight), complementary to teal
+  accent: '#E2663D',
+  accentSoft: '#FBE7DD',
 } as const;
 
 export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 20, xxl: 28, xxxl: 40 } as const;
@@ -67,15 +68,15 @@ export const typeScale = {
 
 export const elevation = {
   card: {
-    shadowColor: '#0B1437',
-    shadowOpacity: 0.05,
+    shadowColor: '#06333C',
+    shadowOpacity: 0.06,
     shadowRadius: 14,
     shadowOffset: { width: 0, height: 6 },
     elevation: 2,
   },
   raised: {
-    shadowColor: '#0B1437',
-    shadowOpacity: 0.1,
+    shadowColor: '#06333C',
+    shadowOpacity: 0.11,
     shadowRadius: 22,
     shadowOffset: { width: 0, height: 10 },
     elevation: 6,

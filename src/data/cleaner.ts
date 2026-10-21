@@ -152,5 +152,5 @@ export function cleanerJobById(id: string) {
 export const JOB_META: Record<JobStatus, { label: string; color: string; soft: string; icon: string }> = {
   act: { label: 'Clean now', color: '#DC2F3A', soft: '#FBE4E6', icon: 'alert-circle' },
   watch: { label: 'Clean soon', color: '#C07A05', soft: '#FBEFD6', icon: 'clock-alert-outline' },
-  routine: { label: 'Routine', color: '#2743C4', soft: '#E7EAFB', icon: 'broom' },
+  routine: { label: 'Routine', color: '#0E7490', soft: '#D6EDF3', icon: 'broom' },
 };

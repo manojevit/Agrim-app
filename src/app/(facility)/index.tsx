@@ -53,6 +53,11 @@ export default function FacilityHome() {
               <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>{reporting} of {total} sensors sending readings</Txt>
             </View>
           </View>
+
+          <Pressable style={styles.callBtn} onPress={() => router.push('/staff')}>
+            <MaterialCommunityIcons name="phone" size={18} color={colors.primary} />
+            <Txt variant="label" color={colors.primary}>Call a cleaner</Txt>
+          </Pressable>
         </View>
 
         <View style={styles.body}>
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
   heroTop: { flexDirection: 'row', alignItems: 'flex-start' },
   switch: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
   statRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.lg, marginTop: spacing.xl, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: radius.lg, padding: spacing.md },
+  callBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, backgroundColor: '#FFFFFF', borderRadius: radius.md, paddingVertical: spacing.md, marginTop: spacing.md },
   body: { paddingHorizontal: spacing.lg, paddingTop: spacing.lg },
   alertBanner: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, padding: spacing.md, marginBottom: spacing.md },
   bellWrap: { width: 40, height: 40, borderRadius: 12, backgroundColor: colors.actSoft, alignItems: 'center', justifyContent: 'center' },

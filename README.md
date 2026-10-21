@@ -1,56 +1,86 @@
-# Welcome to your Expo app 👋
+# Agrim Suchak — Mobile App Prototype
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A **redesigned, simpler** mobile app for Agrim Suchak (the toilet air-quality
+monitoring platform). This is a **frontend / design prototype** built in
+**React Native + Expo** with **dummy data**. No backend, no real sensors —
+the goal is to agree on *how the app should look and how content is shown*
+before the full app is built.
 
-## Get started
+## The core idea of the redesign
 
-1. Install dependencies
+The current app shows **scientist data** (`AQI 497`, `NH₃ 7.06 ppm`,
+`PM2.5 µg/m³`, `Handed upward`) and **device serials** (`LS-0001`). A normal
+user or a cleaner cannot tell what any of it means or what to do next.
 
-   ```bash
-   npm install
-   ```
+This prototype fixes that with four rules:
 
-2. Start the app
+1. **Plain language first.** `AQI 497 Severe` → **"Smells bad — clean now"**.
+   The science is still there, tucked under a *"Show the detailed readings"* tap.
+2. **Real places, not serials.** `LS-0001` → **"Gents toilet 2 · CTC Saket Block A"**.
+3. **Every screen answers "what do I do?"** — one clear button
+   (*Send a cleaner*, *Mark as cleaned*, *I'm on it*, *Pass to my senior*).
+4. **One status scale everyone learns in 5 seconds:**
+   🟢 Good · 🟡 Keep an eye · 🔴 Clean now · ⚪ No signal.
 
-   ```bash
-   npx expo start
-   ```
+## Roles
 
-In the output, you'll find options to open the app in a
+Six roles, each sees only their own area. The app adapts per role:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+| Role | Home shows | Extra menu |
+|------|-----------|-----------|
+| **Facility operator** | Your toilets + today's jobs | — |
+| **Block coordinator** | Blocks that need you | Alert rules |
+| **District coordinator** | District overview | Reports, Voice assistant, AI credits |
+| **Regional supervisor** | Region overview | Reports, Assistant |
+| **Central manager** | Whole estate | + People & roles, Hierarchy |
+| **System administrator** | Platform health | + Device registry, Billing |
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+> **Reviewing all six roles:** On the login screen tap any role under
+> **"Preview as a role"**, or use the **Switch** button (top-right of Home,
+> or in Menu) any time. This is a prototype shortcut, not a real login.
 
-## Get a fresh project
-
-When you're ready, run:
+## Run it
 
 ```bash
-npm run reset-project
+cd agrim-suchak-app
+npm install        # first time only
+npx expo start     # then press 'a' (Android), 'i' (iOS), or 'w' (web)
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Or scan the QR code with **Expo Go** on your phone.
 
-### Other setup steps
+## What's built (v0.1)
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+- Login / role picker
+- Home (role-aware dashboard)
+- Toilets list (filter by plain status) + Toilet detail (plain meters + science)
+- Alerts list + Alert detail (with a 6-step progress line and actions)
+- Cleaning (jobs, mark-as-cleaned, call a cleaner, recent log)
+- Menu (role-gated) + Switch role
+- Admin: People & roles, Estate hierarchy
 
-## Learn more
+## Not built yet (next, after your review)
 
-To learn more about developing your project with Expo, look at the following resources:
+Reports, Alert rules editor, Staff & calls, Voice assistant, AI credits,
+Device registry, Billing, Map. These are stubbed in the Menu so you can see
+where they live. We'll build them once the design direction is approved.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Project structure
 
-## Join the community
+```
+src/
+  app/            # screens (Expo Router — file-based routing)
+    (tabs)/       # Home, Toilets, Alerts, Cleaning, Menu
+    toilet/[id]   # toilet detail
+    alert/[id]    # alert detail
+    admin/        # users, hierarchy
+  components/      # reusable UI (Card, StatusBadge, ToiletRow, LevelMeter…)
+  data/            # ALL dummy data lives here (toilets, alerts, cleaning, roles…)
+  context/         # session (current role)
+  theme/           # colours, spacing, the one status scale
+  i18n/            # English strings — structured so Hindi drops in later
+```
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+All dummy data is in `src/data/` — easy to swap for real API calls later.
+All UI text goes through `t()` in `src/i18n/` so Hindi can be added without
+touching the screens.

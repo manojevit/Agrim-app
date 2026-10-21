@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   roleChip: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.pill, paddingHorizontal: spacing.sm, paddingVertical: spacing.xs },
   roleBadge: { width: 26, height: 26, borderRadius: 8, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
   heroIcon: { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
   tiles: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.sm },
   blockRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   blockTag: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: radius.pill },

@@ -24,21 +24,21 @@ export default function CleanerAlert() {
 
       <View style={styles.center}>
         <View style={styles.ring}>
-          <MaterialCommunityIcons name="alert-circle" size={56} color="#FFFFFF" />
+          <MaterialCommunityIcons name="alert-circle" size={56} color={colors.act} />
         </View>
         <Txt variant="display" color="#FFFFFF" style={{ textAlign: 'center', marginTop: spacing.xl }}>{toilet}</Txt>
-        <Txt variant="h3" color="#C7CEEF" style={{ textAlign: 'center', marginTop: spacing.xs }}>{t('alert.needsCleaning')}</Txt>
+        <Txt variant="h3" color="rgba(255,255,255,0.72)" style={{ textAlign: 'center', marginTop: spacing.xs }}>{t('alert.needsCleaning')}</Txt>
         <View style={styles.reason}>
-          <Txt variant="body" color="#E6E9F7" style={{ textAlign: 'center' }}>{t(`problem.${job.status}`)}</Txt>
-          <Txt variant="small" color="#9AA3CC" style={{ textAlign: 'center', marginTop: spacing.xs }}>{job.building}</Txt>
+          <Txt variant="body" color="rgba(255,255,255,0.88)" style={{ textAlign: 'center' }}>{t(`problem.${job.status}`)}</Txt>
+          <Txt variant="small" color="rgba(255,255,255,0.52)" style={{ textAlign: 'center', marginTop: spacing.xs }}>{job.building}</Txt>
         </View>
       </View>
 
       <View style={{ gap: spacing.sm }}>
-        <Button mode="contained" icon="arrow-right" buttonColor="#FFFFFF" textColor={colors.primaryDark} style={{ borderRadius: radius.md }} contentStyle={{ height: 54 }} labelStyle={styles.label} onPress={() => router.replace(`/cleaner-job/${job.id}`)}>
+        <Button mode="contained" icon="arrow-right" buttonColor="#FFFFFF" textColor={colors.primary} style={{ borderRadius: radius.md }} contentStyle={{ height: 54 }} labelStyle={styles.label} onPress={() => router.replace(`/cleaner-job/${job.id}`)}>
           {t('alert.viewJob')}
         </Button>
-        <Button mode="text" textColor="#C7CEEF" labelStyle={styles.label} onPress={() => router.replace('/(cleaner)')}>
+        <Button mode="text" textColor="rgba(255,255,255,0.72)" labelStyle={styles.label} onPress={() => router.replace('/(cleaner)')}>
           {t('alert.later')}
         </Button>
       </View>
@@ -47,11 +47,11 @@ export default function CleanerAlert() {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, backgroundColor: colors.primaryDark, paddingHorizontal: spacing.xl },
+  wrap: { flex: 1, backgroundColor: colors.primary, paddingHorizontal: spacing.xl },
   badge: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.14)', borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
   badgeDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.act },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   ring: { width: 120, height: 120, borderRadius: 60, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)' },
   reason: { marginTop: spacing.xl, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: radius.lg, padding: spacing.lg, alignSelf: 'stretch' },
-  label: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 16 },
+  label: { fontFamily: 'Inter_700Bold', fontSize: 16 },
 });

@@ -112,5 +112,5 @@ const styles = StyleSheet.create({
   dots: { flexDirection: 'row', justifyContent: 'center', gap: spacing.sm },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.borderStrong },
   dotOn: { width: 22, backgroundColor: colors.primary },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 16 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 16 },
 });

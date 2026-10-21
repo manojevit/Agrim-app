@@ -100,6 +100,6 @@ const styles = StyleSheet.create({
   stepDot: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: colors.borderStrong, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   handed: { flexDirection: 'row', gap: spacing.sm, backgroundColor: colors.watchSoft, padding: spacing.md, borderRadius: radius.md, marginTop: spacing.md },
   btn: { borderRadius: radius.md },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
   row: { flexDirection: 'row', justifyContent: 'space-between', padding: spacing.md, gap: spacing.md },
 });

@@ -1,5 +1,7 @@
 /** The cleaner's own data — their jobs, kept simple and in plain words (English + Hindi). */
 
+import { colors } from '@/theme';
+
 export type JobStatus = 'act' | 'watch' | 'routine';
 
 export interface CleanerJob {
@@ -95,7 +97,7 @@ export function cleanerJobById(id: string) {
 }
 
 export const JOB_META: Record<JobStatus, { color: string; soft: string; icon: string }> = {
-  act: { color: '#E23D3D', soft: '#FBE4E4', icon: 'alert-circle' },
-  watch: { color: '#D98A0B', soft: '#FBEED6', icon: 'clock-alert-outline' },
-  routine: { color: '#0E7490', soft: '#D6EDF3', icon: 'broom' },
+  act: { color: colors.act, soft: colors.actSoft, icon: 'alert-circle' },
+  watch: { color: colors.watch, soft: colors.watchSoft, icon: 'clock-alert-outline' },
+  routine: { color: colors.offline, soft: colors.offlineSoft, icon: 'broom' },
 };

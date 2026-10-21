@@ -59,12 +59,12 @@ export default function MapScreen() {
 }
 
 const styles = StyleSheet.create({
-  map: { height: 240, borderRadius: radius.xl, backgroundColor: '#E3EEF0', borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
+  map: { height: 240, borderRadius: radius.xl, backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
   road1: { position: 'absolute', top: '45%', left: 0, right: 0, height: 10, backgroundColor: '#FFFFFF' },
   road2: { position: 'absolute', top: 0, bottom: 0, left: '52%', width: 10, backgroundColor: '#FFFFFF' },
   park: { position: 'absolute', top: '10%', left: '8%', width: 90, height: 70, borderRadius: 16, backgroundColor: '#D4E9DA' },
   pin: { position: 'absolute', width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: '#FFFFFF' },
-  youAre: { position: 'absolute', bottom: '12%', left: '18%', width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(14,116,144,0.25)', alignItems: 'center', justifyContent: 'center' },
+  youAre: { position: 'absolute', bottom: '12%', left: '18%', width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(21,24,29,0.14)', alignItems: 'center', justifyContent: 'center' },
   youDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.primary, borderWidth: 2, borderColor: '#FFFFFF' },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border, padding: spacing.md, marginBottom: spacing.sm },
 });

@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   bigIcon: { width: 56, height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.md },
   btn: { borderRadius: radius.md },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
   scienceToggle: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, marginTop: spacing.lg, paddingVertical: spacing.sm },
   readRow: { flexDirection: 'row', alignItems: 'center', padding: spacing.md },
   border: { borderBottomWidth: 1, borderBottomColor: colors.border },

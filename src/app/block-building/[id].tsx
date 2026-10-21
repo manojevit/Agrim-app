@@ -21,37 +21,36 @@ export default function BlockBuilding() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader back title={b.name} subtitle={b.path}>
-        <View style={styles.statusCard}>
-          <View style={[styles.medallion, { backgroundColor: m.color }]}>
-            <MaterialCommunityIcons name="office-building" size={24} color="#FFFFFF" />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Txt variant="h3" color="#FFFFFF">{lang === 'hi' ? b.headlineHi : b.headline}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{t('b.sensorsCleaners', { r: b.reporting, n: b.toilets, c: b.cleaners })}</Txt>
+      <AppHeader back title={b.name} subtitle={b.path} />
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }}>
+        <View style={styles.card}>
+          <View style={styles.row}>
+            <View style={[styles.iconTile, { backgroundColor: m.soft }]}><MaterialCommunityIcons name="office-building-outline" size={22} color={m.color} /></View>
+            <View style={{ flex: 1 }}>
+              <Txt variant="h3" color={m.color}>{lang === 'hi' ? b.headlineHi : b.headline}</Txt>
+              <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{t('b.sensorsCleaners', { r: b.reporting, n: b.toilets, c: b.cleaners })}</Txt>
+            </View>
           </View>
         </View>
-      </AppHeader>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
-        <View style={styles.stats}>
-          <Stat label={t('b.needCleaning')} value={`${b.needNow}`} tone={b.needNow ? colors.act : colors.good} />
+        <View style={[styles.stats, { marginTop: spacing.md }]}>
+          <Stat label={t('b.needCleaning')} value={`${b.needNow}`} tone={b.needNow ? colors.act : colors.text} />
           <View style={styles.vline} />
-          <Stat label={t('b.openLbl')} value={`${b.openAlerts}`} tone={b.openAlerts ? colors.watch : colors.good} />
+          <Stat label={t('b.openLbl')} value={`${b.openAlerts}`} tone={b.openAlerts ? colors.watch : colors.text} />
           <View style={styles.vline} />
-          <Stat label={t('b.handedUp')} value={`${b.handedUp}`} tone={b.handedUp ? colors.act : colors.good} />
+          <Stat label={t('b.handedUp')} value={`${b.handedUp}`} tone={b.handedUp ? colors.act : colors.text} />
         </View>
 
-        <Button mode="contained" icon="phone" style={styles.callBtn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} onPress={() => router.push('/staff')}>
+        <Button mode="contained" icon="phone-outline" style={styles.callBtn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} onPress={() => router.push('/staff')}>
           {t('b.callForBuilding')}
         </Button>
 
-        <Txt variant="h3" style={{ marginTop: spacing.xl, marginBottom: spacing.sm }}>{t('tab.toilets')}</Txt>
+        <Txt variant="overline" color={colors.textSubtle} style={{ marginTop: spacing.xl, marginBottom: spacing.sm }}>{t('tab.toilets').toUpperCase()}</Txt>
         {sorted.length > 0 ? (
           sorted.map((x) => <ToiletCard key={x.id} toilet={x} variant="row" />)
         ) : (
           <View style={styles.empty}>
-            <MaterialCommunityIcons name="wifi-off" size={22} color={colors.textSubtle} />
+            <MaterialCommunityIcons name="wifi-off" size={20} color={colors.textSubtle} />
             <Txt variant="small" color={colors.textMuted} style={{ flex: 1 }}>{t('b.noSensors')}</Txt>
           </View>
         )}
@@ -70,11 +69,12 @@ function Stat({ label, value, tone }: { label: string; value: string; tone: stri
 }
 
 const styles = StyleSheet.create({
-  statusCard: { flexDirection: 'row', gap: spacing.md, alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: radius.lg, padding: spacing.md, marginTop: spacing.lg },
-  medallion: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
-  stats: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.xl, paddingVertical: spacing.lg },
-  vline: { width: 1, height: 40, backgroundColor: colors.border },
-  callBtn: { borderRadius: radius.md, marginTop: spacing.md },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  card: { backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border, padding: spacing.lg },
+  row: { flexDirection: 'row', gap: spacing.md },
+  iconTile: { width: 40, height: 40, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  stats: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, paddingVertical: spacing.lg },
+  vline: { width: 1, height: 36, backgroundColor: colors.border },
+  callBtn: { borderRadius: radius.md, marginTop: spacing.md, backgroundColor: colors.primary },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
   empty: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, backgroundColor: colors.surfaceAlt, borderRadius: radius.md, padding: spacing.lg },
 });

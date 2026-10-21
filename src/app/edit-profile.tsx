@@ -48,5 +48,5 @@ const styles = StyleSheet.create({
   avatarWrap: { alignItems: 'center', marginBottom: spacing.xl },
   avatar: { width: 84, height: 84, borderRadius: 28, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
   save: { borderRadius: radius.md, marginTop: spacing.xl },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
 });

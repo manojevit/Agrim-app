@@ -33,13 +33,13 @@ export default function Toilets() {
         value={q}
         onChangeText={setQ}
         style={styles.search}
-        inputStyle={{ fontFamily: 'PlusJakartaSans_400Regular', minHeight: 0 }}
+        inputStyle={{ fontFamily: 'Inter_400Regular', minHeight: 0 }}
       />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: spacing.md }} contentContainerStyle={{ gap: spacing.sm, paddingRight: spacing.lg }}>
         {FILTERS.map((f) => (
           <Chip key={f.key} selected={filter === f.key} onPress={() => setFilter(f.key)} showSelectedCheck={false}
             style={[styles.chip, filter === f.key && { backgroundColor: colors.primary }]}
-            textStyle={{ fontFamily: 'PlusJakartaSans_600SemiBold', color: filter === f.key ? colors.textInverse : colors.textMuted }}>
+            textStyle={{ fontFamily: 'Inter_600SemiBold', color: filter === f.key ? colors.textInverse : colors.textMuted }}>
             {f.label}
           </Chip>
         ))}

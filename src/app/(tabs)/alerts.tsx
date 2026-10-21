@@ -30,7 +30,7 @@ export default function Alerts() {
         {FILTERS.map((f) => (
           <Chip key={f.key} selected={filter === f.key} onPress={() => setFilter(f.key)} showSelectedCheck={false}
             style={[styles.chip, filter === f.key && { backgroundColor: colors.primary }]}
-            textStyle={{ fontFamily: 'PlusJakartaSans_600SemiBold', color: filter === f.key ? colors.textInverse : colors.textMuted }}>
+            textStyle={{ fontFamily: 'Inter_600SemiBold', color: filter === f.key ? colors.textInverse : colors.textMuted }}>
             {f.label}
           </Chip>
         ))}

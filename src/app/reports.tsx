@@ -74,9 +74,9 @@ function Picker({ label, value, options, onPick }: { label: string; value: strin
 const styles = StyleSheet.create({
   opt: { paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
   fmt: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.xs, paddingVertical: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   icon: { width: 42, height: 42, borderRadius: 12, backgroundColor: colors.primaryTint, alignItems: 'center', justifyContent: 'center' },
-  link: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 13 },
+  link: { fontFamily: 'Inter_700Bold', fontSize: 13 },
   running: { paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, backgroundColor: colors.watchSoft, borderRadius: radius.pill },
 });

@@ -32,44 +32,42 @@ export default function FacilityToilet() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <AppHeader back title={name} subtitle={toilet.block}>
-        <View style={styles.statusCard}>
-          <View style={[styles.medallion, { backgroundColor: m.color }]}>
-            <MaterialCommunityIcons name={m.icon as any} size={24} color="#FFFFFF" />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Txt variant="h3" color="#FFFFFF">{lang === 'hi' ? toilet.headlineHi : toilet.headline}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.8)" style={{ marginTop: 2 }}>{lang === 'hi' ? toilet.reasonHi : toilet.reason}</Txt>
-            <Txt variant="tiny" color="rgba(255,255,255,0.6)" style={{ marginTop: 6 }}>{t('c.lastReading', { t: toilet.lastSeen })}</Txt>
+      <AppHeader back title={name} subtitle={toilet.block} />
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }}>
+        <View style={styles.card}>
+          <View style={styles.row}>
+            <View style={[styles.iconTile, { backgroundColor: m.soft }]}><MaterialCommunityIcons name={m.icon as any} size={22} color={m.color} /></View>
+            <View style={{ flex: 1 }}>
+              <Txt variant="h3" color={m.color}>{lang === 'hi' ? toilet.headlineHi : toilet.headline}</Txt>
+              <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{lang === 'hi' ? toilet.reasonHi : toilet.reason}</Txt>
+              <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: 6 }}>{t('c.lastReading', { t: toilet.lastSeen })}</Txt>
+            </View>
           </View>
         </View>
-      </AppHeader>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
         {hasData && (
-          <View style={[styles.card, { gap: spacing.xl }]}>
+          <View style={[styles.card, { gap: spacing.xl, marginTop: spacing.md }]}>
             <LevelMeter title={t('td.smell')} word={ODOUR[lang][toilet.odour!] ?? '—'} value={toilet.odour! / 5} tone={toilet.odour! >= 4 ? colors.act : toilet.odour! >= 3 ? colors.watch : colors.good} caption={t('td.odourOf', { n: toilet.odour! })} />
             <LevelMeter title={t('td.air')} word={airWord(toilet.aqi!, lang)} value={toilet.aqi! / 500} tone={toilet.aqi! > 300 ? colors.act : toilet.aqi! > 200 ? colors.watch : colors.good} caption={t('td.airOf', { n: toilet.aqi! })} />
           </View>
         )}
 
-        <View style={{ gap: spacing.sm, marginTop: hasData ? spacing.md : 0 }}>
-          {toilet.status === 'act' && <Button mode="contained" icon="phone" onPress={() => RNAlert.alert(t('td.sendCleaner'), `${name}`, [{ text: 'OK' }])} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('td.sendCleaner')}</Button>}
-          {toilet.status === 'offline' && <Button mode="contained" icon="wrench" onPress={() => RNAlert.alert(t('td.reportSensor'))} style={styles.btn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('td.reportSensor')}</Button>}
-          <Button mode="outlined" icon="check" onPress={() => RNAlert.alert(t('td.markCleaned'), name)} style={[styles.btn, { borderColor: colors.borderStrong }]} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.primary}>{t('td.markCleaned')}</Button>
+        <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
+          {toilet.status === 'act' && <Button mode="contained" icon="phone-outline" onPress={() => RNAlert.alert(t('td.sendCleaner'), name, [{ text: 'OK' }])} style={styles.primaryBtn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('td.sendCleaner')}</Button>}
+          {toilet.status === 'offline' && <Button mode="contained" icon="wrench-outline" onPress={() => RNAlert.alert(t('td.reportSensor'))} style={styles.primaryBtn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel}>{t('td.reportSensor')}</Button>}
+          <Button mode="outlined" icon="check" onPress={() => RNAlert.alert(t('td.markCleaned'), name)} style={styles.outlineBtn} contentStyle={{ height: 50 }} labelStyle={styles.btnLabel} textColor={colors.text}>{t('td.markCleaned')}</Button>
         </View>
 
         {toilet.readings.length > 0 && (
           <>
             <Pressable style={styles.toggle} onPress={() => setScience((s) => !s)}>
-              <MaterialCommunityIcons name="flask-outline" size={16} color={colors.textMuted} />
               <Txt variant="label" color={colors.textMuted}>{science ? t('td.hideReadings') : t('td.showReadings')}</Txt>
               <MaterialCommunityIcons name={science ? 'chevron-up' : 'chevron-down'} size={16} color={colors.textMuted} />
             </Pressable>
             {science && (
-              <View style={[styles.card, { padding: 0, marginTop: spacing.sm }]}>
+              <View style={[styles.card, { padding: 0 }]}>
                 {toilet.readings.map((rd, i) => (
-                  <View key={rd.key} style={[styles.readRow, i < toilet.readings.length - 1 && styles.border]}>
+                  <View key={rd.key} style={[styles.readRow, i < toilet.readings.length - 1 && styles.readBorder]}>
                     <View style={{ flex: 1 }}>
                       <Txt variant="bodyMed">{rd.plain}</Txt>
                       <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: 1 }}>{rd.key}</Txt>
@@ -87,12 +85,13 @@ export default function FacilityToilet() {
 }
 
 const styles = StyleSheet.create({
-  statusCard: { flexDirection: 'row', gap: spacing.md, backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: radius.lg, padding: spacing.md, marginTop: spacing.lg },
-  medallion: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
-  card: { backgroundColor: colors.surface, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.border, padding: spacing.lg },
-  btn: { borderRadius: radius.md },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
-  toggle: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, marginTop: spacing.lg, paddingVertical: spacing.sm },
+  card: { backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border, padding: spacing.lg },
+  row: { flexDirection: 'row', gap: spacing.md },
+  iconTile: { width: 40, height: 40, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  primaryBtn: { borderRadius: radius.md, backgroundColor: colors.primary },
+  outlineBtn: { borderRadius: radius.md, borderColor: colors.borderStrong },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
+  toggle: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, marginVertical: spacing.lg },
   readRow: { flexDirection: 'row', alignItems: 'center', padding: spacing.md },
-  border: { borderBottomWidth: 1, borderBottomColor: colors.border },
+  readBorder: { borderBottomWidth: 1, borderBottomColor: colors.border },
 });

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   lineBorder: { borderBottomWidth: 1, borderBottomColor: colors.border },
   lineIcon: { width: 36, height: 36, borderRadius: 11, backgroundColor: colors.primaryTint, alignItems: 'center', justifyContent: 'center' },
   testBtn: { marginTop: spacing.md, borderRadius: radius.md, borderColor: colors.borderStrong },
-  btnSm: { fontFamily: 'PlusJakartaSans_600SemiBold', fontSize: 13 },
+  btnSm: { fontFamily: 'Inter_600SemiBold', fontSize: 13 },
   toggle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingVertical: spacing.md },
   divider: { height: 1, backgroundColor: colors.border },
   dot: { width: 12, height: 12, borderRadius: 6 },

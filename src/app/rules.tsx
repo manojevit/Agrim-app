@@ -63,5 +63,5 @@ const styles = StyleSheet.create({
   thresholds: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
   th: { flex: 1, padding: spacing.md, borderRadius: radius.md },
   channels: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.md },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 15 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 15 },
 });

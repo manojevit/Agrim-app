@@ -3,9 +3,9 @@ import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Txt } from './Txt';
-import { colors, radius, spacing } from '@/theme';
+import { colors, spacing } from '@/theme';
 
-/** The indigo header band — the brand's visual anchor, shared across the field apps. */
+/** Light, minimal screen header — ink title on the page background, no colour band. */
 export function AppHeader({
   title,
   subtitle,
@@ -21,16 +21,16 @@ export function AppHeader({
 }) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.band, { paddingTop: insets.top + spacing.md }]}>
-      <View style={styles.topRow}>
+    <View style={[styles.wrap, { paddingTop: insets.top + spacing.sm }]}>
+      <View style={styles.row}>
         {back && (
           <Pressable onPress={() => router.back()} hitSlop={12} style={styles.back}>
-            <MaterialCommunityIcons name="chevron-left" size={26} color="#FFFFFF" />
+            <MaterialCommunityIcons name="chevron-left" size={26} color={colors.text} />
           </Pressable>
         )}
         <View style={{ flex: 1 }}>
-          {title ? <Txt variant="h1" color="#FFFFFF">{title}</Txt> : null}
-          {subtitle ? <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>{subtitle}</Txt> : null}
+          {title ? <Txt variant="h1">{title}</Txt> : null}
+          {subtitle ? <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{subtitle}</Txt> : null}
         </View>
         {right}
       </View>
@@ -40,13 +40,7 @@ export function AppHeader({
 }
 
 const styles = StyleSheet.create({
-  band: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.xl,
-    borderBottomLeftRadius: radius.xxl,
-    borderBottomRightRadius: radius.xxl,
-  },
-  topRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  wrap: { backgroundColor: colors.bg, paddingHorizontal: spacing.lg, paddingBottom: spacing.sm },
+  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 40 },
   back: { marginLeft: -spacing.sm },
 });

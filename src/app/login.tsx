@@ -83,5 +83,5 @@ export default function Login() {
 const styles = StyleSheet.create({
   brand: { alignItems: 'center' },
   card: { backgroundColor: colors.surface, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.border, padding: spacing.xl, marginTop: spacing.xxl },
-  btnLabel: { fontFamily: 'PlusJakartaSans_700Bold', fontSize: 16 },
+  btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 16 },
 });

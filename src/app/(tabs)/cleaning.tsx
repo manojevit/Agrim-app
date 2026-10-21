@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   tag: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: radius.pill },
   meta: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.xs },
   actions: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
-  btnSm: { fontFamily: 'PlusJakartaSans_600SemiBold', fontSize: 13 },
+  btnSm: { fontFamily: 'Inter_600SemiBold', fontSize: 13 },
   logRow: { flexDirection: 'row', gap: spacing.md },
   logIcon: { width: 36, height: 36, borderRadius: 10, backgroundColor: colors.goodSoft, alignItems: 'center', justifyContent: 'center' },
 });

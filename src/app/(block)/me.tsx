@@ -36,14 +36,14 @@ export default function BlockMe() {
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader title={t('tab.me')}>
         <View style={styles.profile}>
-          <View style={styles.avatar}><Txt variant="display" color={colors.primary}>{BLOCK.name[0]}</Txt></View>
+          <View style={styles.avatar}><Txt variant="h1" color={colors.primary}>{BLOCK.name[0]}</Txt></View>
           <View style={{ flex: 1 }}>
-            <Txt variant="h2" color="#FFFFFF">{BLOCK.name}</Txt>
-            <Txt variant="small" color="rgba(255,255,255,0.72)" style={{ marginTop: 2 }}>{t('b.coord')}</Txt>
+            <Txt variant="h2">{BLOCK.name}</Txt>
+            <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{t('b.coord')}</Txt>
           </View>
           <Pressable style={styles.switch} onPress={() => router.push('/switch-role')}>
-            <MaterialCommunityIcons name="swap-horizontal" size={16} color="#FFFFFF" />
-            <Txt variant="tiny" color="#FFFFFF">{t('common.switch')}</Txt>
+            <MaterialCommunityIcons name="swap-horizontal" size={15} color={colors.text} />
+            <Txt variant="tiny" color={colors.text}>{t('common.switch')}</Txt>
           </Pressable>
         </View>
       </AppHeader>
@@ -81,9 +81,9 @@ function Group({ items }: { items: Row[] }) {
 }
 
 const styles = StyleSheet.create({
-  profile: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.lg },
-  avatar: { width: 60, height: 60, borderRadius: 20, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
-  switch: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
+  profile: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.md, marginBottom: spacing.sm },
+  avatar: { width: 54, height: 54, borderRadius: 16, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
+  switch: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
   group: { backgroundColor: colors.surface, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.md },
   border: { borderBottomWidth: 1, borderBottomColor: colors.border },

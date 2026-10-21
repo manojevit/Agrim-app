@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   stepRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.lg },
   stepper: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, backgroundColor: colors.surfaceAlt, borderRadius: radius.pill, padding: spacing.xs },
   stepBtn: { width: 32, height: 32, borderRadius: 16, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
-  btnSm: { fontFamily: 'PlusJakartaSans_600SemiBold', fontSize: 13 },
+  btnSm: { fontFamily: 'Inter_600SemiBold', fontSize: 13 },
   hearRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.md },
   msgBox: { backgroundColor: colors.surfaceAlt, borderRadius: radius.md, padding: spacing.md, marginTop: spacing.sm },
   msgTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },

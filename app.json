@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "agrim-suchak-app",
+    "name": "Agrim Suchak",
     "slug": "agrim-suchak-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,6 +11,8 @@
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "com.manojevit.agrimsuchak",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#D6EDF3",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

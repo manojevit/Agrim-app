@@ -10,7 +10,7 @@ indigo identity (hero header + progress ring), not templated card-soup.
 |---|------|------|--------|
 | 1 | **Cleaner** | ✅ | **Built — `1-Cleaner (app)/`** |
 | 2 | **Facility operator** | ✅ | **Built — `2-Facility operator (app)/`** |
-| 3 | Block coordinator | ✅ light | next |
+| 3 | **Block coordinator** | ✅ | **Built — `3-Block coordinator (app)/`** |
 | — | District / Regional / Central / System | dashboard only | — |
 
 ### Login (shared)
@@ -27,6 +27,12 @@ Looks after one building. Home (ring of toilets good + what needs attention +
 open-alerts banner) · toilets (filterable) · toilet detail (plain Smell/Air
 meters, send cleaner / mark cleaned, science on tap) · offline sensor ·
 alerts · alert detail (progress + acknowledge / send cleaner / pass up) · me.
+
+### `3-Block coordinator (app)/`
+Runs a cluster of buildings (a ward). Home (ring of buildings good + "handed
+up to you" escalations + buildings that need you) · buildings (filterable) ·
+building detail (stats + call a cleaner + its toilets) · alerts ("handed up to
+me" first) · alert rules (set when toilets alert) · me (+ cleaners & calls).
 
 ### `_earlier-concept (v0.2 unified app)/`
 The earlier single-app-with-role-menus version. Reference only.

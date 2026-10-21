@@ -69,9 +69,10 @@ export const ROLE_ORDER: RoleId[] = ['cleaner', 'facility', 'block', 'district',
 export const APP_ROLES: RoleId[] = ['cleaner', 'facility', 'block'];
 
 /** The home route for a role — ground roles get their own tailored app. */
-export function homeRouteFor(id: RoleId): '/(cleaner)' | '/(facility)' | '/(tabs)' {
+export function homeRouteFor(id: RoleId): '/(cleaner)' | '/(facility)' | '/(block)' | '/(tabs)' {
   if (id === 'cleaner') return '/(cleaner)';
   if (id === 'facility') return '/(facility)';
+  if (id === 'block') return '/(block)';
   return '/(tabs)';
 }
 

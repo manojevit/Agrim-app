@@ -12,7 +12,7 @@
     },
     "android": {
       "package": "com.manojevit.agrimsuchak",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "backgroundColor": "#DCE7FD",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

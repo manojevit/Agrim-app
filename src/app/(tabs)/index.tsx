@@ -10,7 +10,9 @@ import { Txt } from '@/components/Txt';
 import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
 import { ALERTS, summary } from '@/data/devices';
+import { personForRole } from '@/data/roles';
 import { aqiBand, colors, odourColor, radius, spacing } from '@/theme';
+import { boundedContent, useResponsive } from '@/theme/responsive';
 
 function greetKey() {
   const h = new Date().getHours();
@@ -23,22 +25,24 @@ export default function Home() {
   const insets = useSafeAreaInsets();
   const { role } = useSession();
   const { t } = useLang();
+  const r = useResponsive();
   const [tab, setTab] = useState<'dashboard' | 'map'>('dashboard');
 
   const s = summary();
   const band = aqiBand(s.avgAqi);
   const roleName = role ? t('role.' + role.id) : '';
+  const person = role ? personForRole(role.id) : null;
   const newest = ALERTS.filter((a) => a.state === 'active').slice(0, 3);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
+      <View style={[styles.header, { paddingTop: insets.top + spacing.sm, paddingHorizontal: r.gutter }]}>
         <Txt variant="h1" style={{ flex: 1 }}>{t('home.title')}</Txt>
         <Pressable hitSlop={10} onPress={() => router.push('/search')}><MaterialCommunityIcons name="magnify" size={24} color={colors.text} /></Pressable>
         <Pressable hitSlop={10} onPress={() => router.push('/(tabs)/alerts')} style={{ marginLeft: spacing.md }}><MaterialCommunityIcons name="bell-outline" size={23} color={colors.text} /></Pressable>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingBottom: 120 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={boundedContent(r, 120)}>
         <View style={styles.toggle}>
           <Seg label={t('home.dashboard')} active={tab === 'dashboard'} onPress={() => setTab('dashboard')} />
           <Seg label={t('home.map')} active={tab === 'map'} onPress={() => setTab('map')} />
@@ -47,7 +51,7 @@ export default function Home() {
         {tab === 'map' && <View style={{ marginBottom: spacing.lg }}><MapPreview height={230} /></View>}
 
         <Txt variant="small" color={colors.textMuted}>{t(greetKey())}</Txt>
-        <Txt variant="h1" style={{ marginTop: 2 }}>Dev User One</Txt>
+        <Txt variant="h1" style={{ marginTop: 2 }}>{person?.name ?? ''}</Txt>
         <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{t('home.areas', { role: roleName, n: s.blocks })}</Txt>
         <Txt variant="small" color={colors.textSubtle} style={{ marginTop: spacing.md, marginBottom: spacing.sm }}>{t('home.asOf')}</Txt>
 

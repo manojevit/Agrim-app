@@ -8,12 +8,15 @@ import { Txt } from '@/components/Txt';
 import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
 import { homeRouteFor, roleFromEmail } from '@/data/roles';
+import { RoleId } from '@/data/types';
 import { colors, radius, spacing } from '@/theme';
+import { useResponsive } from '@/theme/responsive';
 
 export default function Login() {
   const insets = useSafeAreaInsets();
   const { signIn } = useSession();
   const { t, lang, setLang } = useLang();
+  const r = useResponsive();
   const [email, setEmail] = useState('facility@example.com');
   const [password, setPassword] = useState('password123');
   const [show, setShow] = useState(false);
@@ -24,10 +27,15 @@ export default function Login() {
     router.replace(homeRouteFor(role));
   };
 
+  const signInAs = (role: RoleId) => {
+    signIn(role);
+    router.replace(homeRouteFor(role));
+  };
+
   return (
     <ScrollView
       style={{ backgroundColor: colors.bg }}
-      contentContainerStyle={{ flexGrow: 1, paddingTop: insets.top + spacing.xxl, paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl }}
+      contentContainerStyle={{ flexGrow: 1, paddingTop: insets.top + spacing.xxl, paddingHorizontal: r.gutter, paddingBottom: spacing.xxl, width: '100%', maxWidth: 460, alignSelf: 'center' }}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
     >
@@ -82,6 +90,17 @@ export default function Login() {
         </Pressable>
       </View>
 
+      <View style={styles.quick}>
+        <Txt variant="small" color={colors.textSubtle} style={{ textAlign: 'center', marginBottom: spacing.sm }}>{t('login.as')}</Txt>
+        <View style={styles.quickRow}>
+          {(['facility', 'block', 'central'] as RoleId[]).map((id) => (
+            <Pressable key={id} style={styles.quickChip} onPress={() => signInAs(id)}>
+              <Txt variant="label" color={colors.primary}>{id === 'central' ? t('login.asAdmin') : t('role.' + id)}</Txt>
+            </Pressable>
+          ))}
+        </View>
+      </View>
+
       <View style={styles.foot}>
         <Txt variant="small" color={colors.textMuted}>{t('login.new')} </Txt>
         <Pressable onPress={signInNow}><Txt variant="label" color={colors.primary}>{t('login.create')}</Txt></Pressable>
@@ -96,5 +115,8 @@ const styles = StyleSheet.create({
   logo: { width: 76, height: 76, borderRadius: 22, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
   card: { backgroundColor: colors.surface, borderRadius: radius.xl, padding: spacing.xl, marginTop: spacing.xxl, shadowColor: '#1A2A44', shadowOpacity: 0.06, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 2 },
   btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 16 },
+  quick: { marginTop: spacing.xl },
+  quickRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', gap: spacing.sm },
+  quickChip: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 8 },
   foot: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 'auto', paddingTop: spacing.xl },
 });

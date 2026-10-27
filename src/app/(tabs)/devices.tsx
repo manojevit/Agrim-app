@@ -8,10 +8,12 @@ import { Txt } from '@/components/Txt';
 import { useLang } from '@/context/lang';
 import { DEVICES } from '@/data/devices';
 import { colors, radius, spacing } from '@/theme';
+import { boundedContent, useResponsive } from '@/theme/responsive';
 
 export default function Devices() {
   const insets = useSafeAreaInsets();
   const { t } = useLang();
+  const r = useResponsive();
   const [q, setQ] = useState('');
 
   const list = useMemo(() => {
@@ -22,13 +24,13 @@ export default function Devices() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
+      <View style={[styles.header, { paddingTop: insets.top + spacing.sm, paddingHorizontal: r.gutter }]}>
         <Txt variant="h1" style={{ flex: 1 }}>{t('dev.title')}</Txt>
         <Pressable hitSlop={10} onPress={() => router.push('/search')}><MaterialCommunityIcons name="magnify" size={24} color={colors.text} /></Pressable>
         <Pressable hitSlop={10} onPress={() => router.push('/(tabs)/alerts')} style={{ marginLeft: spacing.md }}><MaterialCommunityIcons name="bell-outline" size={23} color={colors.text} /></Pressable>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingBottom: 110 }} keyboardShouldPersistTaps="handled">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={boundedContent(r)} keyboardShouldPersistTaps="handled">
         <View style={styles.searchRow}>
           <View style={styles.search}>
             <MaterialCommunityIcons name="magnify" size={19} color={colors.textSubtle} />

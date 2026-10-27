@@ -5,7 +5,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Txt } from '@/components/Txt';
 import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
+import { personForRole } from '@/data/roles';
 import { colors, radius, spacing } from '@/theme';
+import { boundedContent, useResponsive } from '@/theme/responsive';
 
 type Row = { icon: string; label: string; onPress?: () => void; sub?: string };
 
@@ -13,7 +15,9 @@ export default function Menu() {
   const insets = useSafeAreaInsets();
   const { role, signOut } = useSession();
   const { t, lang, setLang } = useLang();
+  const r = useResponsive();
   const roleName = role ? t('role.' + role.id) : '';
+  const person = role ? personForRole(role.id) : null;
 
   const pickLanguage = () =>
     RNAlert.alert(t('menu.settings'), undefined, [
@@ -35,17 +39,17 @@ export default function Menu() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
+      <View style={[styles.header, { paddingTop: insets.top + spacing.sm, paddingHorizontal: r.gutter }]}>
         <Txt variant="h1">{t('menu.title')}</Txt>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingBottom: 110 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={boundedContent(r)}>
         <View style={styles.profile}>
           <View style={styles.avatar}><MaterialCommunityIcons name="account" size={30} color={colors.primary} /></View>
           <View style={{ flex: 1 }}>
-            <Txt variant="h2">Dev User One</Txt>
+            <Txt variant="h2">{person?.name ?? ''}</Txt>
             <Txt variant="small" color={colors.textMuted} numberOfLines={2} style={{ marginTop: 2 }}>
-              user1@example.com · {roleName} · {role?.area}
+              {person?.email} · {roleName} · {role?.area}
             </Txt>
           </View>
         </View>

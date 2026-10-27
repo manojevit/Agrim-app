@@ -245,6 +245,22 @@ export function devicesForBlock(blockId: string): Device[] {
   return DEVICES.filter((d) => d.blockId === blockId);
 }
 
+/**
+ * Devices don't carry their own GPS in this data, so we spread them in a small
+ * deterministic ring around their block's coordinate. Enough to tell pins apart
+ * on the map without pretending we have real per-unit positions.
+ */
+export function deviceLatLng(device: Device): { lat: number; lng: number } {
+  const b = blockById(device.blockId);
+  if (!b) return { lat: 28.6139, lng: 77.209 };
+  const peers = devicesForBlock(device.blockId);
+  const i = peers.findIndex((d) => d.serial === device.serial);
+  if (i <= 0 && peers.length === 1) return { lat: b.lat, lng: b.lng };
+  const angle = (i / Math.max(1, peers.length)) * Math.PI * 2;
+  const r = 0.0016 + (i % 2) * 0.0009; // ~150–280 m
+  return { lat: b.lat + Math.sin(angle) * r, lng: b.lng + Math.cos(angle) * r };
+}
+
 // ───────────────────────── Alerts ─────────────────────────
 
 export const ALERTS: Alert[] = [

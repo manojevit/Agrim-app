@@ -74,6 +74,20 @@ export function homeRouteFor(_id: RoleId): '/(tabs)' {
   return '/(tabs)';
 }
 
+/** A believable signed-in person for each role, so the app feels specific. */
+export function personForRole(id: RoleId): { name: string; email: string } {
+  const map: Record<RoleId, { name: string; email: string }> = {
+    cleaner: { name: 'Ramesh Kumar', email: 'cleaner@example.com' },
+    facility: { name: 'Anil Verma', email: 'facility@example.com' },
+    block: { name: 'Pooja Rani', email: 'block@example.com' },
+    district: { name: 'Sanjay Mehta', email: 'district@example.com' },
+    regional: { name: 'Kavita Nair', email: 'regional@example.com' },
+    central: { name: 'Admin', email: 'central@example.com' },
+    system: { name: 'System Admin', email: 'system@example.com' },
+  };
+  return map[id];
+}
+
 /** The account decides the role (as a real backend would) — inferred from the email. */
 export function roleFromEmail(email: string): RoleId {
   const e = email.trim().toLowerCase();

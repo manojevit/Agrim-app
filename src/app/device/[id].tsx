@@ -13,6 +13,7 @@ import { useLang } from '@/context/lang';
 import { needsCleaning } from '@/data/cleaning';
 import { Reading, blockById, deviceBySerial } from '@/data/devices';
 import { aqiBand, colors, odourColor, radius, spacing } from '@/theme';
+import { useResponsive } from '@/theme/responsive';
 
 const levelColor = { good: colors.good, watch: colors.watch, warn: colors.warn, act: colors.act } as const;
 
@@ -20,6 +21,7 @@ export default function DeviceDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useLang();
   const { get } = useCleaning();
+  const r = useResponsive();
   const [tab, setTab] = useState<'live' | 'trend' | 'info'>('live');
   const d = deviceBySerial(id);
   if (!d) return <View style={{ flex: 1, backgroundColor: colors.bg }}><AppHeader back title={t('dd.title')} /></View>;
@@ -43,7 +45,7 @@ export default function DeviceDetail() {
         </View>
       </AppHeader>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.xxxl, width: '100%', maxWidth: r.maxContent, alignSelf: 'center' }}>
         {d.online ? (
           <>
             <View style={styles.gauges}>

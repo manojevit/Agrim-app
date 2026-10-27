@@ -7,6 +7,7 @@ import { Txt } from '@/components/Txt';
 import { useLang } from '@/context/lang';
 import { ALERTS } from '@/data/devices';
 import { colors, radius, spacing } from '@/theme';
+import { boundedContent, useResponsive } from '@/theme/responsive';
 
 type Status = 'active' | 'critical' | 'resolved' | 'all';
 type Kind = 'any' | 'threshold' | 'offline' | 'smoke';
@@ -14,6 +15,7 @@ type Kind = 'any' | 'threshold' | 'offline' | 'smoke';
 export default function Alerts() {
   const insets = useSafeAreaInsets();
   const { t } = useLang();
+  const r = useResponsive();
   const [status, setStatus] = useState<Status>('active');
   const [kind, setKind] = useState<Kind>('any');
   const [handedOnly, setHandedOnly] = useState(false);
@@ -31,12 +33,12 @@ export default function Alerts() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
+      <View style={[styles.header, { paddingTop: insets.top + spacing.sm, paddingHorizontal: r.gutter }]}>
         <Txt variant="h1" style={{ flex: 1 }}>{t('al.title')}</Txt>
         <MaterialCommunityIcons name="bell-outline" size={23} color={colors.text} />
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingBottom: 110 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={boundedContent(r)}>
         <View style={styles.chipRow}>
           {(['active', 'critical', 'resolved', 'all'] as Status[]).map((s) => (
             <Chip key={s} label={t('al.' + s)} active={status === s} onPress={() => setStatus(s)} />

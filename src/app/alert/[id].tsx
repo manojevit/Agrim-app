@@ -13,6 +13,7 @@ import { alertById, deviceBySerial } from '@/data/devices';
 import { ROLES } from '@/data/roles';
 import { RoleId } from '@/data/types';
 import { colors, radius, spacing } from '@/theme';
+import { useResponsive } from '@/theme/responsive';
 
 const sevColor = { act: colors.act, watch: colors.watch, info: colors.good } as const;
 const sevSoft = { act: colors.actSoft, watch: colors.watchSoft, info: colors.goodSoft } as const;
@@ -21,6 +22,7 @@ export default function AlertDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useLang();
   const { role } = useSession();
+  const r = useResponsive();
   const [acked, setAcked] = useState(false);
   const [passed, setPassed] = useState(false);
   const [resolved, setResolved] = useState(false);
@@ -63,7 +65,7 @@ export default function AlertDetail() {
         </View>
       </AppHeader>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.xxxl, width: '100%', maxWidth: r.maxContent, alignSelf: 'center' }}>
         {isResolved && (
           <View style={[styles.note, { backgroundColor: colors.goodSoft, borderColor: colors.good }]}>
             <MaterialCommunityIcons name="check-circle" size={18} color={colors.good} />

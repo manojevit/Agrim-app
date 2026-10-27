@@ -118,7 +118,13 @@ const en: Dict = {
 
   'map.title': 'Map',
   'map.units': 'Units on this map',
-  'map.onMap': '{shown} of {total} units are on the map.',
+  'map.onMap': '{shown} of {total} units are reporting.',
+  'map.scope': 'Showing your area · {area}',
+  'map.tapHint': 'Drag to move, +/− to zoom, tap a pin to open a unit.',
+  'map.lgGood': 'Good air',
+  'map.lgPoor': 'Needs attention',
+  'map.lgSevere': 'Severe',
+  'map.lgOffline': 'Offline',
 
   'menu.title': 'Profile',
   'menu.editProfile': 'Edit profile',
@@ -194,6 +200,8 @@ const en: Dict = {
   'login.otp': 'Sign in with OTP instead',
   'login.new': 'New here?',
   'login.create': 'Create account',
+  'login.as': 'Or try a role (demo)',
+  'login.asAdmin': 'Central (admin)',
 
   'tab.myJobs': 'My jobs',
   'tab.done': 'Done',
@@ -529,7 +537,13 @@ const hi: Dict = {
 
   'map.title': 'नक्शा',
   'map.units': 'इस नक्शे की यूनिट',
-  'map.onMap': '{total} में से {shown} यूनिट नक्शे पर हैं।',
+  'map.onMap': '{total} में से {shown} यूनिट रिपोर्ट कर रही हैं।',
+  'map.scope': 'आपका क्षेत्र · {area}',
+  'map.tapHint': 'खिसकाएँ, +/− से ज़ूम करें, यूनिट खोलने के लिए पिन दबाएँ।',
+  'map.lgGood': 'अच्छी हवा',
+  'map.lgPoor': 'ध्यान चाहिए',
+  'map.lgSevere': 'गंभीर',
+  'map.lgOffline': 'ऑफलाइन',
 
   'menu.title': 'प्रोफ़ाइल',
   'menu.editProfile': 'प्रोफ़ाइल संपादित करें',
@@ -605,6 +619,8 @@ const hi: Dict = {
   'login.otp': 'OTP से साइन इन करें',
   'login.new': 'नए हैं?',
   'login.create': 'खाता बनाएं',
+  'login.as': 'या कोई भूमिका आज़माएँ (डेमो)',
+  'login.asAdmin': 'केंद्रीय (एडमिन)',
 
   'tab.myJobs': 'मेरे काम',
   'tab.done': 'पूरे',

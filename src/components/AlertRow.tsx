@@ -20,7 +20,7 @@ export function AlertRow({ alert }: { alert: Alert }) {
   ].filter(Boolean);
 
   return (
-    <AppCard onPress={() => router.push(`/device/${alert.deviceSerial}`)} padded={false} style={styles.card}>
+    <AppCard onPress={() => router.push(`/alert/${alert.id}`)} padded={false} style={styles.card}>
       <View style={[styles.dot, { backgroundColor: color }]} />
       <View style={{ flex: 1 }}>
         <Txt variant="h3">{alert.headline}</Txt>

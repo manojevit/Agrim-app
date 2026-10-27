@@ -15,6 +15,7 @@ import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SessionProvider } from '@/context/session';
 import { LangProvider } from '@/context/lang';
+import { CleaningProvider } from '@/context/cleaning';
 import { colors, paperTheme } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -42,6 +43,7 @@ export default function RootLayout() {
       >
         <LangProvider>
           <SessionProvider>
+            <CleaningProvider>
             <StatusBar style="dark" />
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
               <Stack.Screen name="index" />
@@ -49,6 +51,7 @@ export default function RootLayout() {
               <Stack.Screen name="login" />
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="device/[id]" />
+              <Stack.Screen name="alert/[id]" />
               <Stack.Screen name="add-device" />
               <Stack.Screen name="scan-qr" />
               <Stack.Screen name="search" />
@@ -59,6 +62,7 @@ export default function RootLayout() {
               <Stack.Screen name="edit-profile" />
               <Stack.Screen name="switch-role" options={{ presentation: 'modal' }} />
             </Stack>
+            </CleaningProvider>
           </SessionProvider>
         </LangProvider>
       </PaperProvider>

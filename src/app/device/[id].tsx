@@ -4,10 +4,13 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { AppHeader } from '@/components/AppHeader';
 import { AreaChart } from '@/components/AreaChart';
+import { CleaningPanel } from '@/components/CleaningPanel';
 import { Gauge } from '@/components/Gauge';
 import { Pill } from '@/components/Pill';
 import { Txt } from '@/components/Txt';
+import { useCleaning } from '@/context/cleaning';
 import { useLang } from '@/context/lang';
+import { needsCleaning } from '@/data/cleaning';
 import { Reading, blockById, deviceBySerial } from '@/data/devices';
 import { aqiBand, colors, odourColor, radius, spacing } from '@/theme';
 
@@ -16,11 +19,13 @@ const levelColor = { good: colors.good, watch: colors.watch, warn: colors.warn, 
 export default function DeviceDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useLang();
+  const { get } = useCleaning();
   const [tab, setTab] = useState<'live' | 'trend' | 'info'>('live');
   const d = deviceBySerial(id);
   if (!d) return <View style={{ flex: 1, backgroundColor: colors.bg }}><AppHeader back title={t('dd.title')} /></View>;
   const b = blockById(d.blockId);
   const band = aqiBand(d.aqi);
+  const showCleaning = d.online && (needsCleaning(d) || get(d.serial).stage !== 'idle');
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
@@ -45,6 +50,13 @@ export default function DeviceDetail() {
               <Gauge value={d.aqi} max={500} color={band.color} unit={t('dd.index')} label={t('dd.aqi')} />
               <Gauge value={d.odour} max={5} color={odourColor(d.odour)} unit={t('dd.level')} label={t('dd.odour')} />
             </View>
+
+            {showCleaning && (
+              <View style={{ marginBottom: spacing.lg }}>
+                <Txt variant="small" color={colors.textMuted} style={{ marginBottom: spacing.sm }}>{t('cl2.section')}</Txt>
+                <CleaningPanel device={d} />
+              </View>
+            )}
 
             <View style={styles.tabs}>
               <Tab label={t('dd.live')} active={tab === 'live'} onPress={() => setTab('live')} />

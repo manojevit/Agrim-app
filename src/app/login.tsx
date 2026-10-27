@@ -1,10 +1,11 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Logo } from '@/components/Logo';
 import { Txt } from '@/components/Txt';
+import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
 import { homeRouteFor, roleFromEmail } from '@/data/roles';
 import { colors, radius, spacing } from '@/theme';
@@ -12,7 +13,8 @@ import { colors, radius, spacing } from '@/theme';
 export default function Login() {
   const insets = useSafeAreaInsets();
   const { signIn } = useSession();
-  const [email, setEmail] = useState('operator@example.com');
+  const { t, lang, setLang } = useLang();
+  const [email, setEmail] = useState('facility@example.com');
   const [password, setPassword] = useState('password123');
   const [show, setShow] = useState(false);
 
@@ -25,63 +27,74 @@ export default function Login() {
   return (
     <ScrollView
       style={{ backgroundColor: colors.bg }}
-      contentContainerStyle={{ flexGrow: 1, paddingTop: insets.top + spacing.xxxl, paddingHorizontal: spacing.lg, paddingBottom: spacing.xxxl }}
+      contentContainerStyle={{ flexGrow: 1, paddingTop: insets.top + spacing.xxl, paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl }}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
     >
+      <Pressable style={styles.lang} onPress={() => setLang(lang === 'hi' ? 'en' : 'hi')}>
+        <MaterialCommunityIcons name="translate" size={15} color={colors.primary} />
+        <Txt variant="label" color={colors.primary}>{lang === 'hi' ? 'English' : 'हिन्दी'}</Txt>
+      </Pressable>
+
       <View style={styles.brand}>
-        <Logo size={72} />
-        <Txt variant="display" style={{ marginTop: spacing.lg }}>Agrim Suchak</Txt>
-        <Txt variant="bodyMed" color={colors.textMuted} style={{ marginTop: spacing.xs }}>Clean toilets, watched for you</Txt>
+        <View style={styles.logo}>
+          <MaterialCommunityIcons name="shield-check" size={34} color={colors.primary} />
+        </View>
+        <Txt variant="display" style={{ marginTop: spacing.lg }}>{t('login.welcome')}</Txt>
+        <Txt variant="bodyMed" color={colors.textMuted} style={{ marginTop: spacing.xs }}>{t('login.sub')}</Txt>
       </View>
 
       <View style={styles.card}>
-        <Txt variant="h2">Sign in</Txt>
-        <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2, marginBottom: spacing.lg }}>Use the account your supervisor gave you.</Txt>
-
         <TextInput
           mode="outlined"
-          label="Email or phone"
+          label={t('login.email')}
+          placeholder={t('login.emailHint')}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
           keyboardType="email-address"
-          left={<TextInput.Icon icon="account-outline" />}
+          outlineColor={colors.border}
+          activeOutlineColor={colors.primary}
           outlineStyle={{ borderRadius: radius.md }}
           style={{ backgroundColor: colors.surface }}
         />
         <TextInput
           mode="outlined"
-          label="Password"
+          label={t('login.password')}
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!show}
-          left={<TextInput.Icon icon="lock-outline" />}
           right={<TextInput.Icon icon={show ? 'eye-off' : 'eye'} onPress={() => setShow((s) => !s)} />}
+          outlineColor={colors.border}
+          activeOutlineColor={colors.primary}
           outlineStyle={{ borderRadius: radius.md }}
           style={{ backgroundColor: colors.surface, marginTop: spacing.md }}
         />
-        <Pressable style={{ alignSelf: 'flex-end', marginTop: spacing.sm }}>
-          <Txt variant="label" color={colors.primary}>Forgot password?</Txt>
+        <Pressable style={{ alignSelf: 'flex-end', marginTop: spacing.md }}>
+          <Txt variant="label" color={colors.primary}>{t('login.forgot')}</Txt>
         </Pressable>
 
         <Button mode="contained" onPress={signInNow} contentStyle={{ height: 52 }} style={{ borderRadius: radius.md, marginTop: spacing.md }} labelStyle={styles.btnLabel}>
-          Sign in
+          {t('login.signIn')}
         </Button>
-        <Pressable style={{ alignSelf: 'center', marginTop: spacing.lg }}>
-          <Txt variant="label" color={colors.primary}>Sign in with a one-time code</Txt>
+        <Pressable style={{ alignSelf: 'center', marginTop: spacing.lg }} onPress={signInNow}>
+          <Txt variant="label" color={colors.primary}>{t('login.otp')}</Txt>
         </Pressable>
       </View>
 
-      <Txt variant="tiny" color={colors.textSubtle} style={{ textAlign: 'center', marginTop: 'auto', paddingTop: spacing.xl }}>
-        Having trouble? Ask your supervisor to check your account.
-      </Txt>
+      <View style={styles.foot}>
+        <Txt variant="small" color={colors.textMuted}>{t('login.new')} </Txt>
+        <Pressable onPress={signInNow}><Txt variant="label" color={colors.primary}>{t('login.create')}</Txt></Pressable>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  brand: { alignItems: 'center' },
-  card: { backgroundColor: colors.surface, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.border, padding: spacing.xl, marginTop: spacing.xxl },
+  lang: { alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center', gap: 4, paddingVertical: spacing.xs },
+  brand: { alignItems: 'center', marginTop: spacing.lg },
+  logo: { width: 76, height: 76, borderRadius: 22, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' },
+  card: { backgroundColor: colors.surface, borderRadius: radius.xl, padding: spacing.xl, marginTop: spacing.xxl, shadowColor: '#1A2A44', shadowOpacity: 0.06, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 2 },
   btnLabel: { fontFamily: 'Inter_700Bold', fontSize: 16 },
+  foot: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 'auto', paddingTop: spacing.xl },
 });

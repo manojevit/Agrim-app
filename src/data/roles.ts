@@ -63,27 +63,24 @@ export const ROLES: Record<RoleId, Role> = {
   },
 };
 
-export const ROLE_ORDER: RoleId[] = ['cleaner', 'facility', 'block', 'district', 'regional', 'central', 'system'];
+/** Supervisor roles that log in to the app (no cleaner — client never asked for it). */
+export const ROLE_ORDER: RoleId[] = ['facility', 'block', 'district', 'regional', 'central'];
 
-/** Which roles get the mobile app (the rest use the dashboard). */
-export const APP_ROLES: RoleId[] = ['cleaner', 'facility', 'block'];
+/** Every supervisor uses the one shared app; the screens adapt to their area. */
+export const APP_ROLES: RoleId[] = ['facility', 'block', 'district', 'regional', 'central'];
 
-/** The home route for a role — ground roles get their own tailored app. */
-export function homeRouteFor(id: RoleId): '/(cleaner)' | '/(facility)' | '/(block)' | '/(tabs)' {
-  if (id === 'cleaner') return '/(cleaner)';
-  if (id === 'facility') return '/(facility)';
-  if (id === 'block') return '/(block)';
+/** One unified app for everyone. */
+export function homeRouteFor(_id: RoleId): '/(tabs)' {
   return '/(tabs)';
 }
 
 /** The account decides the role (as a real backend would) — inferred from the email. */
 export function roleFromEmail(email: string): RoleId {
   const e = email.trim().toLowerCase();
-  if (e.startsWith('cleaner')) return 'cleaner';
   if (e.startsWith('block')) return 'block';
   if (e.startsWith('district')) return 'district';
   if (e.startsWith('regional')) return 'regional';
   if (e.startsWith('central')) return 'central';
-  if (e.startsWith('system') || e.startsWith('admin')) return 'system';
+  if (e.startsWith('system') || e.startsWith('admin')) return 'central';
   return 'facility';
 }

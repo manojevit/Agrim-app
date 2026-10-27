@@ -40,31 +40,27 @@ export default function RootLayout() {
         theme={paperTheme}
         settings={{ icon: (props) => <MaterialCommunityIcons {...props} /> }}
       >
-       <LangProvider>
-        <SessionProvider>
-          <StatusBar style="dark" />
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="onboarding" />
-            <Stack.Screen name="login" />
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="(cleaner)" />
-            <Stack.Screen name="(facility)" />
-            <Stack.Screen name="(block)" />
-            <Stack.Screen name="toilet/[id]" />
-            <Stack.Screen name="alert/[id]" />
-            <Stack.Screen name="cleaner-job/[id]" />
-            <Stack.Screen name="facility-toilet/[id]" />
-            <Stack.Screen name="facility-alert/[id]" />
-            <Stack.Screen name="block-building/[id]" />
-            <Stack.Screen name="notifications" />
-            <Stack.Screen name="edit-profile" />
-            <Stack.Screen name="map" />
-            <Stack.Screen name="cleaner-alert" options={{ presentation: 'fullScreenModal' }} />
-            <Stack.Screen name="switch-role" options={{ presentation: 'modal' }} />
-          </Stack>
-        </SessionProvider>
-       </LangProvider>
+        <LangProvider>
+          <SessionProvider>
+            <StatusBar style="dark" />
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="onboarding" />
+              <Stack.Screen name="login" />
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="device/[id]" />
+              <Stack.Screen name="add-device" />
+              <Stack.Screen name="scan-qr" />
+              <Stack.Screen name="search" />
+              <Stack.Screen name="block-usage" />
+              <Stack.Screen name="ai-credits" />
+              <Stack.Screen name="settings" />
+              <Stack.Screen name="notifications" />
+              <Stack.Screen name="edit-profile" />
+              <Stack.Screen name="switch-role" options={{ presentation: 'modal' }} />
+            </Stack>
+          </SessionProvider>
+        </LangProvider>
       </PaperProvider>
     </SafeAreaProvider>
   );

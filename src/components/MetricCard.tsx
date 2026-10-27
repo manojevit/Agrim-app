@@ -1,40 +1,51 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, View } from 'react-native';
-import { AppCard } from './AppCard';
 import { Txt } from './Txt';
-import { colors, fontFamily, spacing } from '@/theme';
+import { Pill } from './Pill';
+import { Sparkline } from './Sparkline';
+import { colors, elevation, radius, spacing } from '@/theme';
 
-/** Big-number tile with a plain label. */
+/** A dashboard summary card: label, optional pill, big number, optional sparkline. */
 export function MetricCard({
   label,
   value,
-  sub,
-  icon,
-  tone = colors.text,
-  toneSoft = colors.surfaceAlt,
+  pill,
+  pillColor,
+  pillVariant = 'solid',
+  spark,
+  sparkColor,
 }: {
   label: string;
   value: string;
-  sub?: string;
-  icon: string;
-  tone?: string;
-  toneSoft?: string;
+  pill?: string;
+  pillColor?: string;
+  pillVariant?: 'solid' | 'outline';
+  spark?: number[];
+  sparkColor?: string;
 }) {
   return (
-    <AppCard style={{ flex: 1 }}>
+    <View style={[styles.card, elevation.card]}>
       <View style={styles.top}>
-        <View style={[styles.icon, { backgroundColor: toneSoft }]}>
-          <MaterialCommunityIcons name={icon as any} size={15} color={tone} />
-        </View>
-        <Txt variant="small" color={colors.textMuted} style={{ flex: 1 }}>{label}</Txt>
+        <Txt variant="small" color={colors.textMuted} numberOfLines={1} style={{ flex: 1 }}>{label}</Txt>
+        {pill ? <Pill text={pill} color={pillColor ?? colors.act} variant={pillVariant} /> : null}
       </View>
-      <Txt style={{ fontFamily: fontFamily.extrabold, fontSize: 30, letterSpacing: -0.6, color: tone }}>{value}</Txt>
-      {sub ? <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: 1 }}>{sub}</Txt> : null}
-    </AppCard>
+      <View style={styles.body}>
+        <Txt variant="metric" color={colors.text}>{value}</Txt>
+        {spark && spark.length > 1 ? (
+          <Sparkline data={spark} color={sparkColor ?? colors.good} width={88} height={40} />
+        ) : null}
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  top: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
-  icon: { width: 26, height: 26, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  card: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    minHeight: 112,
+  },
+  top: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, minHeight: 22 },
+  body: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: spacing.sm, gap: spacing.xs },
 });

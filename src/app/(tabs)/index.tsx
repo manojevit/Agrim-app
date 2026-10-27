@@ -48,31 +48,46 @@ export default function Home() {
           <Seg label={t('home.map')} active={tab === 'map'} onPress={() => setTab('map')} />
         </View>
 
-        {tab === 'map' && <View style={{ marginBottom: spacing.lg }}><MapPreview height={230} /></View>}
-
         <Txt variant="small" color={colors.textMuted}>{t(greetKey())}</Txt>
         <Txt variant="h1" style={{ marginTop: 2 }}>{person?.name ?? ''}</Txt>
         <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2 }}>{t('home.areas', { role: roleName, n: s.blocks })}</Txt>
-        <Txt variant="small" color={colors.textSubtle} style={{ marginTop: spacing.md, marginBottom: spacing.sm }}>{t('home.asOf')}</Txt>
 
-        <View style={styles.grid}>
-          <MetricCard label={t('home.devicesOnline')} value={`${s.devicesReporting}/${s.devicesTotal}`} spark={[7, 7, 7, 7, 6, 7, 6, 4]} sparkColor={colors.good} />
-          <MetricCard label={t('home.activeAlerts')} value={`${s.activeAlerts}`} pill={t('home.criticalN', { n: s.critical })} pillColor={colors.act} pillVariant="outline" />
-        </View>
-        <View style={[styles.grid, { marginTop: spacing.md }]}>
-          <MetricCard label={t('home.avgAqi')} value={`${s.avgAqi}`} pill={band.label} pillColor={band.color} spark={[180, 210, 190, 230, 205, 240, 206]} sparkColor={band.color} />
-          <MetricCard label={t('home.odourIndex')} value={`${s.odourIndex}`} pill={s.odourIndex >= 4 ? 'High' : 'Moderate'} pillColor={odourColor(s.odourIndex)} spark={[2, 2, 3, 2, 3, 4, 4]} sparkColor={odourColor(s.odourIndex)} />
-        </View>
+        {tab === 'map' ? (
+          <View style={{ marginTop: spacing.md }}>
+            <MapPreview height={r.isTablet ? 440 : 340} />
+            <Txt variant="small" color={colors.textMuted} style={{ marginTop: spacing.sm }}>
+              {t('map.onMap', { shown: s.devicesReporting, total: s.devicesTotal })}
+            </Txt>
+            <Txt variant="tiny" color={colors.textSubtle} style={{ marginTop: spacing.xs }}>{t('map.tapHint')}</Txt>
+            <Pressable style={styles.sectionHead} onPress={() => router.push('/(tabs)/map')}>
+              <Txt variant="label" color={colors.primary}>{t('map.units')}</Txt>
+              <MaterialCommunityIcons name="chevron-right" size={20} color={colors.primary} />
+            </Pressable>
+          </View>
+        ) : (
+          <>
+            <Txt variant="small" color={colors.textSubtle} style={{ marginTop: spacing.md, marginBottom: spacing.sm }}>{t('home.asOf')}</Txt>
 
-        <Txt variant="small" color={colors.textMuted} style={{ marginTop: spacing.lg }}>
-          {t('home.summary', { blocks: s.blocks, healthy: s.healthy, need: s.needAttention, silent: s.silent })}
-        </Txt>
+            <View style={styles.grid}>
+              <MetricCard label={t('home.devicesOnline')} value={`${s.devicesReporting}/${s.devicesTotal}`} spark={[7, 7, 7, 7, 6, 7, 6, 4]} sparkColor={colors.good} />
+              <MetricCard label={t('home.activeAlerts')} value={`${s.activeAlerts}`} pill={t('home.criticalN', { n: s.critical })} pillColor={colors.act} pillVariant="outline" />
+            </View>
+            <View style={[styles.grid, { marginTop: spacing.md }]}>
+              <MetricCard label={t('home.avgAqi')} value={`${s.avgAqi}`} pill={band.label} pillColor={band.color} spark={[180, 210, 190, 230, 205, 240, 206]} sparkColor={band.color} />
+              <MetricCard label={t('home.odourIndex')} value={`${s.odourIndex}`} pill={s.odourIndex >= 4 ? 'High' : 'Moderate'} pillColor={odourColor(s.odourIndex)} spark={[2, 2, 3, 2, 3, 4, 4]} sparkColor={odourColor(s.odourIndex)} />
+            </View>
 
-        <View style={styles.sectionHead}>
-          <Txt variant="h2">{t('home.newest')}</Txt>
-          <Pressable onPress={() => router.push('/(tabs)/alerts')}><Txt variant="label" color={colors.primary}>{t('common.seeAll')}</Txt></Pressable>
-        </View>
-        {newest.map((a) => <AlertRow key={a.id} alert={a} />)}
+            <Txt variant="small" color={colors.textMuted} style={{ marginTop: spacing.lg }}>
+              {t('home.summary', { blocks: s.blocks, healthy: s.healthy, need: s.needAttention, silent: s.silent })}
+            </Txt>
+
+            <View style={styles.sectionHead}>
+              <Txt variant="h2">{t('home.newest')}</Txt>
+              <Pressable onPress={() => router.push('/(tabs)/alerts')}><Txt variant="label" color={colors.primary}>{t('common.seeAll')}</Txt></Pressable>
+            </View>
+            {newest.map((a) => <AlertRow key={a.id} alert={a} />)}
+          </>
+        )}
       </ScrollView>
 
       <Pressable style={styles.fab} onPress={() => RNAlert.alert('Voice assistant', 'Ask about your area by voice. (Prototype)')}>

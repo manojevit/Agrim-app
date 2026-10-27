@@ -20,6 +20,16 @@ export default function Alerts() {
   const [kind, setKind] = useState<Kind>('any');
   const [handedOnly, setHandedOnly] = useState(false);
 
+  const counts = useMemo(
+    () => ({
+      active: ALERTS.filter((a) => a.state === 'active').length,
+      critical: ALERTS.filter((a) => a.critical).length,
+      resolved: ALERTS.filter((a) => a.state === 'resolved').length,
+      all: ALERTS.length,
+    }),
+    []
+  );
+
   const list = useMemo(() => {
     return ALERTS.filter((a) => {
       if (status === 'active' && a.state !== 'active') return false;
@@ -41,7 +51,7 @@ export default function Alerts() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={boundedContent(r)}>
         <View style={styles.chipRow}>
           {(['active', 'critical', 'resolved', 'all'] as Status[]).map((s) => (
-            <Chip key={s} label={t('al.' + s)} active={status === s} onPress={() => setStatus(s)} />
+            <Chip key={s} label={`${t('al.' + s)} ${counts[s]}`} active={status === s} onPress={() => setStatus(s)} />
           ))}
         </View>
         <View style={styles.chipRow}>

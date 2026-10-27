@@ -5,6 +5,7 @@ import { Txt } from './Txt';
 import { AppCard } from './AppCard';
 import { Device, blockById } from '@/data/devices';
 import { aqiBand, colors, spacing } from '@/theme';
+import { useResponsive } from '@/theme/responsive';
 
 function dotColor(d: Device) {
   // Dot = connection status (as in the original): green online, teal offline.
@@ -18,6 +19,8 @@ export function DeviceRow({ device, mode = 'list' }: { device: Device; mode?: 'n
   const b = blockById(device.blockId);
   const open = () => router.push(`/device/${device.serial}`);
   const band = aqiBand(device.aqi);
+  const { width } = useResponsive();
+  const narrow = width < 380;
 
   if (mode === 'nearby') {
     return (
@@ -42,7 +45,7 @@ export function DeviceRow({ device, mode = 'list' }: { device: Device; mode?: 'n
       <View style={{ flex: 1 }}>
         <Txt variant="h3">{device.serial}</Txt>
         <Txt variant="small" color={colors.textMuted} numberOfLines={1}>
-          {b?.ward} · {b?.area} · {b?.city} · {device.online ? 'Online' : 'Offline'} · {device.lastSeen}
+          {[b?.ward, b?.area, narrow ? null : b?.city, device.online ? 'Online' : 'Offline', device.lastSeen].filter(Boolean).join(' · ')}
         </Txt>
       </View>
       <MaterialCommunityIcons name="information-outline" size={20} color={colors.textSubtle} />

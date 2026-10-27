@@ -77,6 +77,7 @@ const en: Dict = {
   'dev.searchToilets': 'Search toilets…',
   'dev.add': 'Add device',
   'dev.scan': 'Scan QR',
+  'dev.noneMatch': 'No units match this filter.',
   'st.online': 'Online',
 
   'dd.title': 'Device detail',
@@ -496,6 +497,7 @@ const hi: Dict = {
   'dev.searchToilets': 'शौचालय खोजें…',
   'dev.add': 'डिवाइस जोड़ें',
   'dev.scan': 'QR स्कैन',
+  'dev.noneMatch': 'इस फ़िल्टर से कोई यूनिट नहीं मिली।',
   'st.online': 'ऑनलाइन',
 
   'dd.title': 'डिवाइस विवरण',

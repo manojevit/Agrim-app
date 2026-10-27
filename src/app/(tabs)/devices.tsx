@@ -10,17 +10,30 @@ import { DEVICES } from '@/data/devices';
 import { colors, radius, spacing } from '@/theme';
 import { boundedContent, useResponsive } from '@/theme/responsive';
 
+type Filter = 'all' | 'online' | 'offline';
+
 export default function Devices() {
   const insets = useSafeAreaInsets();
   const { t } = useLang();
   const r = useResponsive();
   const [q, setQ] = useState('');
+  const [filter, setFilter] = useState<Filter>('all');
+  const [showFilter, setShowFilter] = useState(false);
 
   const list = useMemo(() => {
     const s = q.trim().toLowerCase();
-    if (!s) return DEVICES;
-    return DEVICES.filter((d) => d.serial.toLowerCase().includes(s) || (d.label ?? '').toLowerCase().includes(s));
-  }, [q]);
+    return DEVICES.filter((d) => {
+      if (filter === 'online' && !d.online) return false;
+      if (filter === 'offline' && d.online) return false;
+      if (s && !(d.serial.toLowerCase().includes(s) || (d.label ?? '').toLowerCase().includes(s))) return false;
+      return true;
+    });
+  }, [q, filter]);
+
+  const counts = useMemo(
+    () => ({ all: DEVICES.length, online: DEVICES.filter((d) => d.online).length, offline: DEVICES.filter((d) => !d.online).length }),
+    []
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
@@ -36,8 +49,25 @@ export default function Devices() {
             <MaterialCommunityIcons name="magnify" size={19} color={colors.textSubtle} />
             <TextInput value={q} onChangeText={setQ} placeholder={t('dev.searchToilets')} placeholderTextColor={colors.textSubtle} style={styles.input} />
           </View>
-          <View style={styles.filter}><MaterialCommunityIcons name="filter-variant" size={20} color={colors.text} /></View>
+          <Pressable
+            onPress={() => setShowFilter((v) => !v)}
+            style={[styles.filter, filter !== 'all' && { backgroundColor: colors.primarySoft, borderColor: colors.primary }]}
+          >
+            <MaterialCommunityIcons name="filter-variant" size={20} color={filter !== 'all' ? colors.primary : colors.text} />
+          </Pressable>
         </View>
+
+        {showFilter && (
+          <View style={styles.filterRow}>
+            {(['all', 'online', 'offline'] as Filter[]).map((f) => (
+              <Pressable key={f} onPress={() => setFilter(f)} style={[styles.fChip, filter === f ? styles.fChipOn : styles.fChipOff]}>
+                <Txt variant="label" color={filter === f ? colors.primary : colors.textMuted}>
+                  {t(f === 'all' ? 'al.all' : f === 'online' ? 'st.online' : 'st.offline')} {counts[f]}
+                </Txt>
+              </Pressable>
+            ))}
+          </View>
+        )}
 
         <View style={styles.actions}>
           <Pressable style={styles.addBtn} onPress={() => router.push('/add-device')}>
@@ -50,7 +80,11 @@ export default function Devices() {
           </Pressable>
         </View>
 
-        {list.map((d) => <DeviceRow key={d.serial} device={d} mode="list" />)}
+        {list.length ? (
+          list.map((d) => <DeviceRow key={d.serial} device={d} mode="list" />)
+        ) : (
+          <Txt variant="small" color={colors.textSubtle} style={{ textAlign: 'center', marginTop: spacing.xl }}>{t('dev.noneMatch')}</Txt>
+        )}
       </ScrollView>
     </View>
   );
@@ -62,6 +96,10 @@ const styles = StyleSheet.create({
   search: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, paddingHorizontal: spacing.md, height: 48 },
   input: { flex: 1, fontFamily: 'Inter_400Regular', fontSize: 15, color: colors.text, padding: 0 },
   filter: { width: 48, height: 48, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, alignItems: 'center', justifyContent: 'center' },
+  filterRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
+  fChip: { borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 7 },
+  fChipOn: { backgroundColor: colors.primarySoft },
+  fChipOff: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   actions: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.lg },
   addBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, backgroundColor: colors.primary, borderRadius: radius.md, height: 48 },
   scanBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, borderRadius: radius.md, height: 48, paddingHorizontal: spacing.lg },

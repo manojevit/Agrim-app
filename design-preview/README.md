@@ -1,38 +1,43 @@
-# Design preview — one tailored app per role
+# Design preview — Agrim Suchak app
 
-The web **dashboard** keeps all management, analytics and setup. The **mobile
-app** only carries on-the-ground actions, and **each role gets its own focused
-app**. Built on React Native Paper + Plus Jakarta Sans, with a distinctive
-indigo identity (hero header + progress ring), not templated card-soup.
+One **unified app** that reproduces the existing app's design faithfully — same
+structure, same content, **all device parameters kept** — only made smoother and
+cleaner. The role is decided at login (Facility operator, Block coordinator,
+District / Regional / Central). **No cleaner app** — the client only asked for
+the supervisor roles. English + Hindi.
 
-### Which roles get a mobile app
-| # | Role | App? | Status |
-|---|------|------|--------|
-| 1 | **Cleaner** | ✅ | **Built — `1-Cleaner (app)/`** |
-| 2 | **Facility operator** | ✅ | **Built — `2-Facility operator (app)/`** |
-| 3 | **Block coordinator** | ✅ | **Built — `3-Block coordinator (app)/`** |
-| — | District / Regional / Central / System | dashboard only | — |
+Bottom tabs: **Home · Devices · Alerts · Map · Menu.** Blue identity, soft white
+cards, AQI/Odour gauges, the full sensor parameter set.
 
-### Login (shared)
-Clean, professional sign-in. **It does not expose roles** — the account (email)
-decides the role, like a real backend. For this prototype, switch roles from
-inside the app with the **Switch** button (top-right / Me tab).
+## `App (current — matches original app)/`
+The current build, screen by screen:
 
-### `1-Cleaner (app)/`
-My jobs (hero + progress ring) · clean-now alert · job open · log with photo
-(required) · cleaned · done history · me.
+| # | Screen | What it shows |
+|---|--------|---------------|
+| 01 | Login | "Welcome back", email/password, OTP, create account, language toggle |
+| 02 | Home / Summary | Dashboard·Map toggle, greeting, metric cards (Devices online, Active alerts·critical, Avg AQI, Odour index) with sparklines, summary line, newest alerts, AI mic |
+| 03 | Devices | Search + filter, Add device / Scan QR, device list (LS-xxxx · ward · online/offline) |
+| 04 | Device detail · Live | AQI & Odour gauges + **every parameter** — NH₃, H₂S, Trimethylamine, Methyl Mercaptan, CO, PM1/PM2.5/PM10, TVOC |
+| 05 | Device detail · Trend | AQI 24h chart + average |
+| 06 | Device detail · Info | Block path, Serial, Model (EnviroSense-ST), Hardware rev, Firmware, Last seen, Labels |
+| 07 | Device · offline | Offline state + unit info |
+| 08 | Alerts | Filter chips (Active/Critical/Resolved, Threshold/Offline/Smoke, Handed upward) |
+| 09 | Map | Clustered pins + units on this map |
+| 10 | Menu / Profile | Edit profile, password, notifications, AI credits, language, settings, sign out |
+| 11 | Add device | Serial, claim code, label, choose block, add a new block |
+| 12 | Scan QR | Camera frame + paste-code fallback |
+| 13 | Search | By device ID or place |
+| 14 | Use of this block | Footfall (visits/hour) + privacy note |
+| 15 | AI credits | Spend this month, limits, people in your area |
+| 16–18 | Hindi | Home, device detail, menu in हिन्दी (toggle in Menu) |
 
-### `2-Facility operator (app)/`
-Looks after one building. Home (ring of toilets good + what needs attention +
-open-alerts banner) · toilets (filterable) · toilet detail (plain Smell/Air
-meters, send cleaner / mark cleaned, science on tap) · offline sensor ·
-alerts · alert detail (progress + acknowledge / send cleaner / pass up) · me.
+## `0-Onboarding/`
+First-run intro. **Copy is pending a refresh** to match this design — the
+screenshots here are from the earlier version.
 
-### `3-Block coordinator (app)/`
-Runs a cluster of buildings (a ward). Home (ring of buildings good + "handed
-up to you" escalations + buildings that need you) · buildings (filterable) ·
-building detail (stats + call a cleaner + its toilets) · alerts ("handed up to
-me" first) · alert rules (set when toilets alert) · me (+ cleaners & calls).
+## `_earlier-concept (v0.2 unified app)/`
+Archive of an earlier concept. Reference only.
 
-### `_earlier-concept (v0.2 unified app)/`
-The earlier single-app-with-role-menus version. Reference only.
+> Note: the per-role app concept (Cleaner / Facility / Block) was dropped after
+> review — the client wanted the existing app's design and data preserved, not a
+> new structure. Those previews were removed; see git history if needed.

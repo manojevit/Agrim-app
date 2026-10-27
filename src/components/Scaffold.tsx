@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Txt } from './Txt';
 import { colors, spacing } from '@/theme';
+import { useResponsive } from '@/theme/responsive';
 
 /** A screen with a clean title area and scrollable, gutter-padded body. */
 export function Scaffold({
@@ -22,8 +23,9 @@ export function Scaffold({
   scroll?: boolean;
 }) {
   const insets = useSafeAreaInsets();
+  const r = useResponsive();
   const inner = (
-    <View style={{ paddingTop: insets.top + spacing.md, paddingHorizontal: spacing.lg }}>
+    <View style={{ paddingTop: insets.top + spacing.md, paddingHorizontal: r.gutter, width: '100%', maxWidth: r.maxContent, alignSelf: 'center' }}>
       {(title || back) && (
         <View style={styles.header}>
           {back && (

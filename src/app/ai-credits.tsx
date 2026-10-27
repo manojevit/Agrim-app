@@ -16,7 +16,7 @@ export default function AiCredits() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title={t('ai.title')} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }}>
         <Txt variant="small" color={colors.textMuted} style={{ marginBottom: spacing.lg }}>{t('ai.sub')}</Txt>
 
         <View style={styles.card}>

@@ -24,7 +24,7 @@ export default function Search() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title={t('search.title')} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }} keyboardShouldPersistTaps="handled">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }} keyboardShouldPersistTaps="handled">
         <View style={styles.search}>
           <MaterialCommunityIcons name="magnify" size={20} color={colors.textSubtle} />
           <TextInput autoFocus value={q} onChangeText={setQ} placeholder={t('search.placeholder')} placeholderTextColor={colors.textSubtle} style={styles.input} />

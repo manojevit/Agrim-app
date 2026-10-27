@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Logo } from '@/components/Logo';
@@ -19,7 +19,7 @@ const SLIDES = [
 export default function Onboarding() {
   const insets = useSafeAreaInsets();
   const { t, lang, setLang } = useLang();
-  const W = Dimensions.get('window').width;
+  const { width: W } = useWindowDimensions();
   const ref = useRef<any>(null);
   const [index, setIndex] = useState(0);
   const last = index === SLIDES.length - 1;
@@ -65,15 +65,17 @@ export default function Onboarding() {
       >
         {SLIDES.map((s, i) => (
           <View key={i} style={[styles.slide, { width: W }]}>
-            <View style={styles.art}>
-              <View style={styles.ringOuter} />
-              <View style={styles.ringInner} />
-              <View style={styles.iconTile}>
-                <MaterialCommunityIcons name={s.icon as any} size={64} color="#FFFFFF" />
+            <View style={styles.slideInner}>
+              <View style={styles.art}>
+                <View style={styles.ringOuter} />
+                <View style={styles.ringInner} />
+                <View style={styles.iconTile}>
+                  <MaterialCommunityIcons name={s.icon as any} size={64} color="#FFFFFF" />
+                </View>
               </View>
+              <Txt variant="h1" style={{ textAlign: 'center', marginTop: spacing.xxxl }}>{t(s.title)}</Txt>
+              <Txt variant="body" color={colors.textMuted} style={{ textAlign: 'center', marginTop: spacing.md, lineHeight: 22 }}>{t(s.body)}</Txt>
             </View>
-            <Txt variant="h1" style={{ textAlign: 'center', marginTop: spacing.xxxl }}>{t(s.title)}</Txt>
-            <Txt variant="body" color={colors.textMuted} style={{ textAlign: 'center', marginTop: spacing.md, lineHeight: 22 }}>{t(s.body)}</Txt>
           </View>
         ))}
       </ScrollView>
@@ -103,11 +105,12 @@ const styles = StyleSheet.create({
   lang: { paddingHorizontal: spacing.md, paddingVertical: 5, borderRadius: radius.pill },
   langOn: { backgroundColor: colors.primary },
   slide: { paddingHorizontal: spacing.xxl, alignItems: 'center', justifyContent: 'center', flex: 1 },
+  slideInner: { width: '100%', maxWidth: 460, alignItems: 'center' },
   art: { width: 220, height: 220, alignItems: 'center', justifyContent: 'center' },
   ringOuter: { position: 'absolute', width: 220, height: 220, borderRadius: 110, backgroundColor: colors.primaryTint },
   ringInner: { position: 'absolute', width: 160, height: 160, borderRadius: 80, backgroundColor: colors.primarySoft },
   iconTile: { width: 110, height: 110, borderRadius: 34, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
-  footer: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, gap: spacing.lg },
+  footer: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, gap: spacing.lg, width: '100%', maxWidth: 520, alignSelf: 'center' },
   brandRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: spacing.sm },
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.borderStrong },

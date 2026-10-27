@@ -18,7 +18,7 @@ export default function AddDevice() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title={t('add.title')} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }} keyboardShouldPersistTaps="handled">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }} keyboardShouldPersistTaps="handled">
         <Txt variant="small" color={colors.textMuted} style={{ marginBottom: spacing.lg }}>{t('add.intro')}</Txt>
 
         <View style={styles.card}>

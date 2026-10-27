@@ -28,6 +28,9 @@ export default function DeviceDetail() {
   const b = blockById(d.blockId);
   const band = aqiBand(d.aqi);
   const showCleaning = d.online && (needsCleaning(d) || get(d.serial).stage !== 'idle');
+  // Two gauges side by side must fit the column on the narrowest phone.
+  const colW = Math.min(r.width, r.maxContent) - r.gutter * 2;
+  const gaugeSize = Math.max(120, Math.min(150, Math.floor((colW - spacing.lg) / 2)));
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
@@ -49,8 +52,8 @@ export default function DeviceDetail() {
         {d.online ? (
           <>
             <View style={styles.gauges}>
-              <Gauge value={d.aqi} max={500} color={band.color} unit={t('dd.index')} label={t('dd.aqi')} />
-              <Gauge value={d.odour} max={5} color={odourColor(d.odour)} unit={t('dd.level')} label={t('dd.odour')} />
+              <Gauge value={d.aqi} max={500} color={band.color} unit={t('dd.index')} label={t('dd.aqi')} size={gaugeSize} />
+              <Gauge value={d.odour} max={5} color={odourColor(d.odour)} unit={t('dd.level')} label={t('dd.odour')} size={gaugeSize} />
             </View>
 
             {showCleaning && (
@@ -79,7 +82,7 @@ export default function DeviceDetail() {
                   <Txt variant="h3">{t('dd.aqi24h')}</Txt>
                   <Txt variant="small" color={colors.textMuted}>{t('dd.avg', { n: Math.round(d.aqiTrend.reduce((s, v) => s + v, 0) / d.aqiTrend.length) })}</Txt>
                 </View>
-                <AreaChart data={d.aqiTrend} color={band.color} width={300} height={130} />
+                <AreaChart data={d.aqiTrend} color={band.color} height={130} />
                 <View style={styles.axis}>
                   <Txt variant="tiny" color={colors.textSubtle}>11:30 am</Txt>
                   <Txt variant="tiny" color={colors.textSubtle}>10:30 pm</Txt>

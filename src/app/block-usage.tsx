@@ -17,7 +17,7 @@ export default function BlockUsage() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title={t('bu.title')} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }}>
         <Txt variant="h2">{BLOCKS.find((b) => b.id === block)?.name}</Txt>
         <Txt variant="small" color={colors.textMuted} style={{ marginTop: 2, marginBottom: spacing.md }}>{t('bu.sub')}</Txt>
 
@@ -37,7 +37,7 @@ export default function BlockUsage() {
 
         <View style={styles.card}>
           <Txt variant="h3" style={{ marginBottom: spacing.sm }}>{t('bu.useThroughDay')}</Txt>
-          <AreaChart data={CURVE} color={colors.primary} width={300} height={130} />
+          <AreaChart data={CURVE} color={colors.primary} height={130} />
           <View style={styles.axis}>
             <Txt variant="tiny" color={colors.textSubtle}>11:30 am</Txt>
             <Txt variant="tiny" color={colors.textSubtle}>10:30 pm</Txt>

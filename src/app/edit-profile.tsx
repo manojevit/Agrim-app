@@ -6,24 +6,21 @@ import { AppHeader } from '@/components/AppHeader';
 import { Txt } from '@/components/Txt';
 import { useLang } from '@/context/lang';
 import { useSession } from '@/context/session';
-import { RoleId } from '@/data/types';
+import { personForRole } from '@/data/roles';
 import { colors, radius, spacing } from '@/theme';
-
-const NAMES: Record<RoleId, string> = {
-  cleaner: 'Mohzaam', facility: 'Ravi', block: 'Sunita', district: 'Anil', regional: 'Priya', central: 'Asha', system: 'Dev Admin',
-};
 
 export default function EditProfile() {
   const { t } = useLang();
   const { role } = useSession();
-  const [name, setName] = useState(role ? NAMES[role.id] : '');
+  const person = role ? personForRole(role.id) : null;
+  const [name, setName] = useState(person?.name ?? '');
   const [phone, setPhone] = useState('+91 90042 11880');
-  const email = `${role?.id ?? 'user'}@example.com`;
+  const email = person?.email ?? 'user@example.com';
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title={t('c.editProfile')} subtitle={t('ep.sub')} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }}>
         <View style={styles.avatarWrap}>
           <View style={styles.avatar}><Txt variant="display" color={colors.primary}>{(name || 'U')[0]}</Txt></View>
         </View>

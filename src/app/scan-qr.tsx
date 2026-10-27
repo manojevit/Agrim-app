@@ -11,7 +11,7 @@ export default function ScanQR() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title={t('scan.title')} />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }}>
         <Txt variant="small" color={colors.textMuted} style={{ textAlign: 'center', marginBottom: spacing.md }}>{t('scan.align')}</Txt>
 
         <View style={styles.frame}>

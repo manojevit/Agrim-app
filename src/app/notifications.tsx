@@ -16,7 +16,7 @@ export default function Notifications() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <AppHeader back title="Notifications" subtitle="How alerts reach this phone" />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxxl, width: '100%', maxWidth: 620, alignSelf: 'center' }}>
         {/* How it reaches you */}
         <View style={styles.card}>
           <Txt variant="h3" style={{ marginBottom: spacing.md }}>How an alert reaches you</Txt>
